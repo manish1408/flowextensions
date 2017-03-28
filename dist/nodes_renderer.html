@@ -2,7 +2,7 @@
     <a class="btn btn-success btn-xs" ng-if="node.nodes && node.nodes.length > 0" data-nodrag ng-click="toggle(this)">
         <span class="fa" ng-class="{'fa-chevron-right': collapsed,'fa-chevron-down': !collapsed}"></span>
     </a>
-    {{node.title}}
+    <span ng-click="handleNodeclick(node)"> {{node.title}} </span>
     <a class="pull-right btn btn-danger btn-xs" ng-if="node.type != 'attr'" data-nodrag ng-click="remove(this)">
         <span class="fa fa-remove"></span></a>
     <a class="pull-right btn btn-primary btn-xs" ng-if="node.type != 'attr'" data-nodrag ng-click="newSubItem(this , node.type)" style="margin-right: 8px;">

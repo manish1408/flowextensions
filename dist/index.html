@@ -17,6 +17,14 @@
         </div>
         <ul class="nav navbar-nav">
           <li class="active"><a href="#">Home</a></li>
+           <li ><a ng-click="activateWorkflow()" href="#">Workflow </a></li>
+            <li ng-click="deleteSelected()" ng-if="modelservice.edges.getSelectedEdges().length > 0" ><a href="#">Delete Connection</a></li>
+          <li ng-click="addNewInputConnector()" ng-if="modelservice.nodes.getSelectedNodes().length != 0">
+           <a> Add Input Connector </a>
+          </li>
+          <li ng-click="addNewOutputConnector()" ng-if="modelservice.nodes.getSelectedNodes().length != 0">
+             <a> Add Output Connector </a>
+        </li>
         </ul>
         <div class="navbar-header pull-right">
           <a class="navbar-brand"> {{allxmlData.FlowInformation.xsinoNamespaceSchemaLocation}} </a>
@@ -45,7 +53,7 @@
           <button ng-click="collapseAll()" class="btn btn-primary btn-sm">Collapse all</button>
           <div ui-tree id="tree-root" data-drag-enabled="false">
             <ol ui-tree-nodes ng-model="data">
-              <li ng-repeat="node in data track by $index" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+              <li ng-repeat="node in data track by $index" collapsed="true" ui-tree-node ng-include="'nodes_renderer.html'"></li>
             </ol>
           </div>
         </div>

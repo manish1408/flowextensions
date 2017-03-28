@@ -13,7 +13,7 @@ angular.module('app', ['flowchart','ui.tree'])
     var aKeyCode = 65;
     var escKeyCode = 27;
     var nextNodeID = 10;
-    var nextConnectorID = 20;
+    var nextConnectorID = 1;
     var ctrlDown = false;
 
     $scope.processData = function() {
@@ -71,120 +71,38 @@ angular.module('app', ['flowchart','ui.tree'])
          $scope.data = navigationdata;
       });
     };
+    
 
     $scope.processData();
     var model = {
-      nodes: [
-        {
-          name: "Node 1",
-          id: 2,
-          x: 400,
-          y: 100,
-          color: '#000',
-          borderColor: '#000',
-          connectors: [
-            {
-              type: flowchartConstants.bottomConnectorType,
-              id: 9
-            },
-            {
-              type: flowchartConstants.bottomConnectorType,
-              id: 10
+      nodes: [],
+      edges: []
+    };
+
+ var counterY = 1;
+      var counterX = 1;
+    $scope.handleNodeclick = function(node) {
+      var y = 100;
+     
+      if(node.type == 'flow') {
+          node.nodes.forEach(function(element, index) {
+            if(index % 5 === 0 && index != 0) {
+              y = 100;
+              counterY++;
+                y = y * counterY;
+                counterX = 1;
             }
-          ]
-        },
-        {
-          name: "Node 2",
-          id: 3,
-          x: 400,
-          y: 300,
-          color: '#F15B26',
-          connectors: [
-            {
-              type: flowchartConstants.topConnectorType,
-              id: 1
-            },
-            {
-              type: flowchartConstants.topConnectorType,
-              id: 2
-            },
-            {
-              type: flowchartConstants.topConnectorType,
-              id: 3
-            },
-            {
-              type: flowchartConstants.bottomConnectorType,
-              id: 4
-            },
-            {
-              type: flowchartConstants.bottomConnectorType,
-              id: 5
-            },
-            {
-              type: flowchartConstants.bottomConnectorType,
-              id: 12
-            }
-          ]
-        },
-        {
-          name: "Node 3",
-          id: 4,
-          x: 200,
-          y: 600,
-          color: '#000',
-          borderColor: '#000',
-          connectors: [
-            {
-              type: flowchartConstants.topConnectorType,
-              id: 13
-            },
-            {
-              type: flowchartConstants.topConnectorType,
-              id: 14
-            },
-            {
-              type: flowchartConstants.topConnectorType,
-              id: 15
-            }
-          ]
-        },
-        {
-          name: "Node 4",
-          id: 5,
-          x: 600,
-          y: 600,
-          color: '#000',
-          borderColor: '#000',
-          connectors: [
-            {
-              type: flowchartConstants.topConnectorType,
-              id: 16
-            },
-            {
-              type: flowchartConstants.topConnectorType,
-              id: 17
-            },
-            {
-              type: flowchartConstants.topConnectorType,
-              id: 18
-            }
-          ]
-        }
-      ],
-      edges: [
-        {
-          source: 10,
-          destination: 1
-        },
-        {
-          source: 5,
-          destination: 14
-        },
-        {
-          source: 5,
-          destination: 17
-        }
-      ]
+            $scope.addNewNode(element, counterX*200,  y);
+            console.log('Plotted at ' + element+ ',' + counterX*200,  y)
+            counterX ++ ;
+            
+          }, this);
+      }
+      if(node.type == 'node') {
+         $scope.addNewNode(node, counterX * 200,  100 * counterY);
+         counterX ++;
+         counterY ++;
+      }
     };
 
     $scope.flowchartselected = [];
@@ -222,17 +140,13 @@ angular.module('app', ['flowchart','ui.tree'])
       }
     };
 
-    $scope.addNewNode = function () {
-      var nodeName = prompt("Enter a node name:", "New node");
-      if (!nodeName) {
-        return;
-      }
-
+    $scope.addNewNode = function (nodeName, xaxis, yaxis) {
+    
       var newNode = {
-        name: nodeName,
+        name: nodeName.title,
         id: nextNodeID++,
-        x: 200,
-        y: 100,
+        x: xaxis,
+        y: yaxis,
         color: '#F15B26',
         connectors: [
           {
@@ -255,6 +169,20 @@ angular.module('app', ['flowchart','ui.tree'])
       };
 
       model.nodes.push(newNode);
+      // model.edges.push(
+      //    {
+      //     source: 1,
+      //     destination: 25
+      //   },
+      //   {
+      //     source: 5,
+      //     destination: 50
+      //   },
+      //   {
+      //     source: 4,
+      //     destination: 60
+      //   }
+      // );
     };
 
     $scope.activateWorkflow = function () {
@@ -364,56 +292,11 @@ angular.module('app', ['flowchart','ui.tree'])
         $scope.$broadcast('angular-ui-tree:collapse-all');
       };
 
+
       $scope.expandAll = function () {
         $scope.$broadcast('angular-ui-tree:expand-all');
       };
       
-  //  $scope.data = [{
-  //       'id': 1,
-  //       'title': 'node1',
-  //       'nodes': [
-  //         {
-  //           'id': 11,
-  //           'title': 'node1.1',
-  //           'nodes': [
-  //             {
-  //               'id': 111,
-  //               'title': 'node1.1.1',
-  //               'nodes': []
-  //             }
-  //           ]
-  //         },
-  //         {
-  //           'id': 12,
-  //           'title': 'node1.2',
-  //           'nodes': []
-  //         }
-  //       ]
-  //     }, {
-  //       'id': 2,
-  //       'title': 'node2',
-  //       'nodrop': true, // An arbitrary property to check in custom template for nodrop-enabled
-  //       'nodes': [
-  //         {
-  //           'id': 21,
-  //           'title': 'node2.1',
-  //           'nodes': []
-  //         },
-  //         {
-  //           'id': 22,
-  //           'title': 'node2.2',
-  //           'nodes': []
-  //         }
-  //       ]
-  //     }, {
-  //       'id': 3,
-  //       'title': 'node3',
-  //       'nodes': [
-  //         {
-  //           'id': 31,
-  //           'title': 'node3.1',
-  //           'nodes': []
-  //         }
-  //       ]
-  //     }];
+      
+
   });
