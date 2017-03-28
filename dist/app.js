@@ -1,4 +1,4 @@
-angular.module('app', ['flowchart'])
+angular.module('app', ['flowchart','ui.tree'])
   .factory('prompt', function () {
     return prompt;
   })
@@ -19,7 +19,7 @@ angular.module('app', ['flowchart'])
     var model = {
       nodes: [
         {
-          name: "ngFlowchart",
+          name: "Node 1",
           id: 2,
           x: 400,
           y: 100,
@@ -37,7 +37,7 @@ angular.module('app', ['flowchart'])
           ]
         },
         {
-          name: "Implemented with AngularJS",
+          name: "Node 2",
           id: 3,
           x: 400,
           y: 300,
@@ -70,7 +70,7 @@ angular.module('app', ['flowchart'])
           ]
         },
         {
-          name: "Easy Integration",
+          name: "Node 3",
           id: 4,
           x: 200,
           y: 600,
@@ -92,7 +92,7 @@ angular.module('app', ['flowchart'])
           ]
         },
         {
-          name: "Customizable templates",
+          name: "Node 4",
           id: 5,
           x: 600,
           y: 600,
@@ -114,157 +114,234 @@ angular.module('app', ['flowchart'])
           ]
         }
       ],
-    edges: [
-      {
-        source: 10,
-        destination: 1
-      },
-      {
-        source: 5,
-        destination: 14
-      },
-      {
-        source: 5,
-        destination: 17
+      edges: [
+        {
+          source: 10,
+          destination: 1
+        },
+        {
+          source: 5,
+          destination: 14
+        },
+        {
+          source: 5,
+          destination: 17
+        }
+      ]
+    };
+
+    $scope.flowchartselected = [];
+    var modelservice = Modelfactory(model, $scope.flowchartselected);
+
+    $scope.model = model;
+    $scope.modelservice = modelservice;
+
+    $scope.keyDown = function (evt) {
+      if (evt.keyCode === ctrlKeyCode) {
+        ctrlDown = true;
+        evt.stopPropagation();
+        evt.preventDefault();
       }
-    ]
-  };
+    };
 
-$scope.flowchartselected = [];
-var modelservice = Modelfactory(model, $scope.flowchartselected);
+    $scope.keyUp = function (evt) {
 
-$scope.model = model;
-$scope.modelservice = modelservice;
-
-$scope.keyDown = function (evt) {
-  if (evt.keyCode === ctrlKeyCode) {
-    ctrlDown = true;
-    evt.stopPropagation();
-    evt.preventDefault();
-  }
-};
-
-$scope.keyUp = function (evt) {
-
-  if (evt.keyCode === deleteKeyCode) {
-    modelservice.deleteSelected();
-  }
-
-  if (evt.keyCode == aKeyCode && ctrlDown) {
-    modelservice.selectAll();
-  }
-
-  if (evt.keyCode == escKeyCode) {
-    modelservice.deselectAll();
-  }
-
-  if (evt.keyCode === ctrlKeyCode) {
-    ctrlDown = false;
-    evt.stopPropagation();
-    evt.preventDefault();
-  }
-};
-
-$scope.addNewNode = function () {
-  var nodeName = prompt("Enter a node name:", "New node");
-  if (!nodeName) {
-    return;
-  }
-
-  var newNode = {
-    name: nodeName,
-    id: nextNodeID++,
-    x: 200,
-    y: 100,
-    color: '#F15B26',
-    connectors: [
-      {
-        id: nextConnectorID++,
-        type: flowchartConstants.topConnectorType
-      },
-      {
-        id: nextConnectorID++,
-        type: flowchartConstants.topConnectorType
-      },
-      {
-        id: nextConnectorID++,
-        type: flowchartConstants.bottomConnectorType
-      },
-      {
-        id: nextConnectorID++,
-        type: flowchartConstants.bottomConnectorType
+      if (evt.keyCode === deleteKeyCode) {
+        modelservice.deleteSelected();
       }
-    ]
-  };
 
-  model.nodes.push(newNode);
-};
+      if (evt.keyCode == aKeyCode && ctrlDown) {
+        modelservice.selectAll();
+      }
 
-$scope.activateWorkflow = function() {
-  angular.forEach($scope.model.edges, function(edge) {
-    edge.active = !edge.active;
+      if (evt.keyCode == escKeyCode) {
+        modelservice.deselectAll();
+      }
+
+      if (evt.keyCode === ctrlKeyCode) {
+        ctrlDown = false;
+        evt.stopPropagation();
+        evt.preventDefault();
+      }
+    };
+
+    $scope.addNewNode = function () {
+      var nodeName = prompt("Enter a node name:", "New node");
+      if (!nodeName) {
+        return;
+      }
+
+      var newNode = {
+        name: nodeName,
+        id: nextNodeID++,
+        x: 200,
+        y: 100,
+        color: '#F15B26',
+        connectors: [
+          {
+            id: nextConnectorID++,
+            type: flowchartConstants.topConnectorType
+          },
+          {
+            id: nextConnectorID++,
+            type: flowchartConstants.topConnectorType
+          },
+          {
+            id: nextConnectorID++,
+            type: flowchartConstants.bottomConnectorType
+          },
+          {
+            id: nextConnectorID++,
+            type: flowchartConstants.bottomConnectorType
+          }
+        ]
+      };
+
+      model.nodes.push(newNode);
+    };
+
+    $scope.activateWorkflow = function () {
+      angular.forEach($scope.model.edges, function (edge) {
+        edge.active = !edge.active;
+      });
+    };
+
+    $scope.addNewInputConnector = function () {
+      var connectorName = prompt("Enter a connector name:", "New connector");
+      if (!connectorName) {
+        return;
+      }
+
+      var selectedNodes = modelservice.nodes.getSelectedNodes($scope.model);
+      for (var i = 0; i < selectedNodes.length; ++i) {
+        var node = selectedNodes[i];
+        node.connectors.push({ id: nextConnectorID++, type: flowchartConstants.topConnectorType });
+      }
+    };
+
+    $scope.addNewOutputConnector = function () {
+      var connectorName = prompt("Enter a connector name:", "New connector");
+      if (!connectorName) {
+        return;
+      }
+
+      var selectedNodes = modelservice.nodes.getSelectedNodes($scope.model);
+      for (var i = 0; i < selectedNodes.length; ++i) {
+        var node = selectedNodes[i];
+        node.connectors.push({ id: nextConnectorID++, type: flowchartConstants.bottomConnectorType });
+      }
+    };
+
+    $scope.deleteSelected = function () {
+      modelservice.deleteSelected();
+    };
+
+    $scope.callbacks = {
+      edgeDoubleClick: function () {
+        console.log('Edge double clicked.');
+      },
+      edgeMouseOver: function () {
+        console.log('mouserover')
+      },
+      isValidEdge: function (source, destination) {
+        return source.type === flowchartConstants.bottomConnectorType && destination.type === flowchartConstants.topConnectorType;
+      },
+      edgeAdded: function (edge) {
+        console.log("edge added");
+        console.log(edge);
+      },
+      nodeRemoved: function (node) {
+        console.log("node removed");
+        console.log(node);
+      },
+      edgeRemoved: function (edge) {
+        console.log("edge removed");
+        console.log(edge);
+      },
+      nodeCallbacks: {
+        'doubleClick': function (event) {
+          console.log('Node was doubleclicked.')
+        }
+      }
+    };
+    modelservice.registerCallbacks($scope.callbacks.edgeAdded, $scope.callbacks.nodeRemoved, $scope.callbacks.edgeRemoved);
+
+    $scope.remove = function (scope) {
+        scope.remove();
+      };
+
+      $scope.toggle = function (scope) {
+        scope.toggle();
+      };
+
+      $scope.moveLastToTheBeginning = function () {
+        var a = $scope.data.pop();
+        $scope.data.splice(0, 0, a);
+      };
+
+      $scope.newSubItem = function (scope) {
+        var nodeData = scope.$modelValue;
+        nodeData.nodes.push({
+          id: nodeData.id * 10 + nodeData.nodes.length,
+          title: nodeData.title + '.' + (nodeData.nodes.length + 1),
+          nodes: []
+        });
+      };
+
+      $scope.collapseAll = function () {
+        $scope.$broadcast('angular-ui-tree:collapse-all');
+      };
+
+      $scope.expandAll = function () {
+        $scope.$broadcast('angular-ui-tree:expand-all');
+      };
+      
+   $scope.data = [{
+        'id': 1,
+        'title': 'node1',
+        'nodes': [
+          {
+            'id': 11,
+            'title': 'node1.1',
+            'nodes': [
+              {
+                'id': 111,
+                'title': 'node1.1.1',
+                'nodes': []
+              }
+            ]
+          },
+          {
+            'id': 12,
+            'title': 'node1.2',
+            'nodes': []
+          }
+        ]
+      }, {
+        'id': 2,
+        'title': 'node2',
+        'nodrop': true, // An arbitrary property to check in custom template for nodrop-enabled
+        'nodes': [
+          {
+            'id': 21,
+            'title': 'node2.1',
+            'nodes': []
+          },
+          {
+            'id': 22,
+            'title': 'node2.2',
+            'nodes': []
+          }
+        ]
+      }, {
+        'id': 3,
+        'title': 'node3',
+        'nodes': [
+          {
+            'id': 31,
+            'title': 'node3.1',
+            'nodes': []
+          }
+        ]
+      }];
   });
-};
-
-$scope.addNewInputConnector = function () {
-  var connectorName = prompt("Enter a connector name:", "New connector");
-  if (!connectorName) {
-    return;
-  }
-
-  var selectedNodes = modelservice.nodes.getSelectedNodes($scope.model);
-  for (var i = 0; i < selectedNodes.length; ++i) {
-    var node = selectedNodes[i];
-    node.connectors.push({id: nextConnectorID++, type: flowchartConstants.topConnectorType});
-  }
-};
-
-$scope.addNewOutputConnector = function () {
-  var connectorName = prompt("Enter a connector name:", "New connector");
-  if (!connectorName) {
-    return;
-  }
-
-  var selectedNodes = modelservice.nodes.getSelectedNodes($scope.model);
-  for (var i = 0; i < selectedNodes.length; ++i) {
-    var node = selectedNodes[i];
-    node.connectors.push({id: nextConnectorID++, type: flowchartConstants.bottomConnectorType});
-  }
-};
-
-$scope.deleteSelected = function () {
-  modelservice.deleteSelected();
-};
-
-$scope.callbacks = {
-  edgeDoubleClick: function () {
-    console.log('Edge double clicked.');
-  },
-  edgeMouseOver: function () {
-    console.log('mouserover')
-  },
-  isValidEdge: function (source, destination) {
-    return source.type === flowchartConstants.bottomConnectorType && destination.type === flowchartConstants.topConnectorType;
-  },
-  edgeAdded: function (edge) {
-    console.log("edge added");
-    console.log(edge);
-  },
-  nodeRemoved: function (node) {
-    console.log("node removed");
-    console.log(node);
-  },
-  edgeRemoved: function (edge) {
-    console.log("edge removed");
-    console.log(edge);
-  },
-  nodeCallbacks: {
-    'doubleClick': function (event) {
-      console.log('Node was doubleclicked.')
-    }
-  }
-};
-modelservice.registerCallbacks($scope.callbacks.edgeAdded, $scope.callbacks.nodeRemoved, $scope.callbacks.edgeRemoved);
-
-})
-;

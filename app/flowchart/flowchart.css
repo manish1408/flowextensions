@@ -1,11 +1,26 @@
-.fc-canvas {
+* {
+  -webkit-box-sizing: inherit;
+     -moz-box-sizing: inherit;
+          box-sizing: inherit;
+}
+*:before,
+*:after {
+  -webkit-box-sizing: inherit;
+     -moz-box-sizing: inherit;
+          box-sizing: inherit;
+}
+
+.canvas-workflow .fc-canvas {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-.fc-canvas svg {
+.canvas-workflow .fc-canvas svg {
   position: relative;
   width: 100%;
   height: 100%;
+}
+.canvas-workflow p {
+  margin: 0px;
 }

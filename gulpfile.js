@@ -30,6 +30,19 @@ gulp.task('vendorScripts', function() {
   return ret;
 });
 
+gulp.task('vendorCss', function() {
+  safeReload++;
+  var ret = gulp.src(
+    ['app/bower_components/angular-ui-tree/dist/angular-ui-tree.min.css',
+    'app/bower_components/bootstrap/dist/css/bootstrap.min.css',
+    'app/bower_components/font-awesome/css/font-awesome.css'
+    ])
+    .pipe(concat('vendor.css'))
+    .pipe(gulp.dest('dist/'));
+  safeReload--;
+  return ret;
+});
+
 gulp.task('flowchartScripts', function() {
   safeReload++;
   var ret = merge2(
@@ -96,10 +109,10 @@ gulp.task('test', function(done) {
 });
 
 gulp.task('clean', function(done) {
-  del(['dist/ngFlowchart.js', 'dist/vendor.js', 'dist/flowchart.css'], done);
+  del(['dist/ngFlowchart.js', 'dist/vendor.js', 'dist/vendor.css', 'dist/flowchart.css'], done);
 });
 
-gulp.task('build', ['flowchartScripts', 'flowchartCss', 'vendorScripts']);
+gulp.task('build', ['flowchartScripts', 'flowchartCss', 'vendorScripts','vendorCss']);
 gulp.task('default', ['connect', 'open', 'watch']);
 
 
