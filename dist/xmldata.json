@@ -1,0 +1,489 @@
+{
+  "FlowInformation": {
+    "-xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "xsinoNamespaceSchemaLocation": "FlowInformation.xsd",
+    "Flows": [
+      {
+        "id": "abc1",
+        "FlowName": "Entity_Aggregation_FanOut",
+        "Node": [
+          {
+            "NodeType": "SOAPInputNode",
+            "SOAPInputNode": {
+              "id": "a1",
+              "Name": "Read SOAP request",
+              "OperationMode": "gateway",
+              "URL": "/dip/entityset/aggregation"
+            }
+          },
+          {
+            "NodeType": "AggregateControlNode",
+            "AggregateControlNode": {
+              "id": "a2",
+              "Name": "Aggregate Control1",
+              "AggregateName": "SOAP_Aggregate",
+              "Timeout": "60"
+            }
+          },
+          {
+            "NodeType": "ComputeNode",
+            "ComputeNode": {
+              "id": "a3",
+              "Name": "Create fanout messages",
+              "ESQLFileName": "C:\\Users\\IBM_ADMIN\\Desktop\\wsdl\\esql\\Entity_Aggregation_FanOut.esql",
+              "ModuleName": "Entity_Aggregation_FanOut_Compute"
+            }
+          },
+          {
+            "NodeType": "MQOutputNode",
+            "MQOutputNode": {
+              "id": "a4",
+              "Name": "SOAP.OUT1",
+              "QueueName": "SOAP.OUT1"
+            }
+          },
+          {
+            "NodeType": "MQOutputNode",
+            "MQOutputNode": {
+              "id": "a5",
+              "Name": "SOAP.OUT2",
+              "QueueName": "SOAP.OUT2"
+            }
+          },
+          {
+            "NodeType": "MQOutputNode",
+            "MQOutputNode": {
+              "id": "a7",
+              "Name": "HTTP.OUT1",
+              "QueueName": "HTTP.OUT1"
+            }
+          },
+          {
+            "NodeType": "AggregateRequestNode",
+            "AggregateRequestNode": {
+              "id": "a8",
+              "Name": "Statement Entity Request",
+              "FolderName": "Entity_Statement_Response"
+            }
+          },
+          {
+            "NodeType": "AggregateRequestNode",
+            "AggregateRequestNode": {
+              "id": "a9",
+              "Name": "Balance Entity Request",
+              "FolderName": "Entity_Balance_Response"
+            }
+          },
+          {
+            "NodeType": "AggregateRequestNode",
+            "AggregateRequestNode": {
+              "id": "a10",
+              "Name": "Account Entity Request",
+              "FolderName": "Entity_Account_Response"
+            }
+          },
+          {
+            "NodeType": "ComputeNode",
+            "ComputeNode": {
+              "id": "a11",
+              "Name": "Set fault msg",
+              "ESQLFileName": "C:\\Users\\IBM_ADMIN\\Desktop\\wsdl\\esql\\Exception_Handler.esql",
+              "ModuleName": "Exception_Handler"
+            }
+          },
+          {
+            "NodeType": "SOAPReplyNode",
+            "SOAPReplyNode": {
+              "id": "a12",
+              "Name": "SOAP Reply"
+            }
+          }
+        ],
+        "Connections": [
+          {
+            "Connection": {
+              "SourceName": "Read SOAP request",
+              "TargetName": "Set fault msg",
+              "SourceTerminal": "catch",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Set fault msg",
+              "TargetName": "SOAP Reply",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Read SOAP request",
+              "TargetName": "Aggregate Control1",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Aggregate Control1",
+              "TargetName": "Create fanout messages",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Create fanout messages",
+              "TargetName": "SOAP.OUT1",
+              "SourceTerminal": "out1",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Create fanout messages",
+              "TargetName": "SOAP.OUT2",
+              "SourceTerminal": "out2",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Create fanout messages",
+              "TargetName": "HTTP.OUT1",
+              "SourceTerminal": "out3",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "SOAP.OUT1",
+              "TargetName": "Statement Entity Request",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "SOAP.OUT2",
+              "TargetName": "Balance Entity Request",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "HTTP.OUT1",
+              "TargetName": "Account Entity Request",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          }
+        ]
+      },
+      {
+        "id": "abc2",
+        "FlowName": "Entity_Endpoint_Invocation",
+        "Node": [
+          {
+            "NodeType": "MQInputNode",
+            "MQInputNode": {
+              "id": "a25",
+              "Name": "HTTP.OUT1",
+              "QueueName": "HTTP.OUT1"
+            }
+          },
+          {
+            "NodeType": "ComputeNode",
+            "ComputeNode": {
+              "id": "a263",
+              "Name": "Set HTTP context - 3",
+              "ESQLFileName": "C:\\Users\\IBM_ADMIN\\Desktop\\wsdl\\esql\\Entity_Endpoint_Invocation.esql",
+              "ModuleName": "Entity_Endpoint_Invocation_Compute3"
+            }
+          },
+          {
+            "NodeType": "HTTPRequestNode",
+            "HTTPRequestNode": {
+              "id": "a27",
+              "Name": "Call backend HTTP service - 1",
+              "URL": "http://localhost:7801/dip/accountInfo/getCustomer"
+            }
+          },
+          {
+            "NodeType": "FilterNode",
+            "FilterNode": {
+              "id": "a28",
+              "Name": "Check Cust Exists",
+              "ESQLFileName": "C:\\Users\\IBM_ADMIN\\Desktop\\wsdl\\esql\\Entity_Endpoint_Invocation_Filter.esql",
+              "ModuleName": "Entity_Endpoint_Invocation_Filter"
+            }
+          },
+          {
+            "NodeType": "HTTPRequestNode",
+            "HTTPRequestNode": {
+              "id": "a30",
+              "Name": "Call backend HTTP service - 2",
+              "URL": "http://localhost:7801/dip/accountInfo/getAccount"
+            }
+          },
+          {
+            "NodeType": "ComputeNode",
+            "ComputeNode": {
+              "id": "a13",
+              "Name": "Aggregate Fan-In - 3",
+              "ESQLFileName": "C:\\Users\\IBM_ADMIN\\Desktop\\wsdl\\esql\\Entity_Endpoint_Invocation.esql",
+              "ModuleName": "Entity_Endpoint_Invocation_Compute4"
+            }
+          },
+          {
+            "NodeType": "MQOutputNode",
+            "MQOutputNode": {
+              "id": "a14",
+              "Name": "HTTP.IN1",
+              "QueueName": "HTTP.IN1"
+            }
+          },
+          {
+            "NodeType": "MQInputNode",
+            "MQInputNode": {
+              "id": "a15",
+              "Name": "SOAP.OUT1",
+              "QueueName": "SOAP.OUT1"
+            }
+          },
+          {
+            "NodeType": "ComputeNode",
+            "ComputeNode": {
+              "id": "a16",
+              "Name": "Set SOAP context - 1",
+              "ESQLFileName": "C:\\Users\\IBM_ADMIN\\Desktop\\wsdl\\esql\\Entity_Endpoint_Invocation.esql",
+              "ModuleName": "Entity_Endpoint_Invocation_Compute1"
+            }
+          },
+          {
+            "NodeType": "SOAPAsynchronousRequestNode",
+            "SOAPAsynchronousRequestNode": {
+              "id": "a17",
+              "Name": "Call backend SOAP service - 1",
+              "URL": "http://localhost:7801/dip/accountInfo/getStatement",
+              "UniqueIdentifier": "EntitySetAggregator_SoapAsync1",
+              "OperationMode": "singleWsdl",
+              "WSDLFileName": "C:\\Users\\IBM_ADMIN\\Desktop\\wsdl\\AccountInformation.wsdl",
+              "PortType": "AccountInformation",
+              "Binding": "AccountInformationSOAP",
+              "BindingOperation": "getStatement",
+              "ServicePort": "AccountInformationSOAP_HTTP_Port",
+              "TargerNamespace": "http://www.ibm.com/DIP/demo/AccountInformation/"
+            }
+          },
+          {
+            "NodeType": "ComputeNode",
+            "ComputeNode": {
+              "id": "a18",
+              "Name": "Throw User Exception",
+              "ESQLFileName": "C:\\Users\\IBM_ADMIN\\Desktop\\wsdl\\esql\\Entity_Endpoint_Invocation.esql",
+              "ModuleName": "Entity_Endpoint_Invocation_Compute"
+            }
+          },
+          {
+            "NodeType": "MQInputNode",
+            "MQInputNode": {
+              "id": "a19",
+              "Name": "SOAP.OUT2",
+              "QueueName": "SOAP.OUT2"
+            }
+          },
+          {
+            "NodeType": "ComputeNode",
+            "ComputeNode": {
+              "id": "a20",
+              "Name": "Set SOAP context - 2",
+              "ESQLFileName": "C:\\Users\\IBM_ADMIN\\Desktop\\wsdl\\esql\\Entity_Endpoint_Invocation.esql",
+              "ModuleName": "Entity_Endpoint_Invocation_Compute2"
+            }
+          },
+          {
+            "NodeType": "SOAPAsynchronousRequestNode",
+            "SOAPAsynchronousRequestNode": {
+              "id": "a21",
+              "Name": "Call backend SOAP service - 2",
+              "URL": "http://localhost:7801/dip/accountInfo/getBalance",
+              "UniqueIdentifier": "EntitySetAggregator_SoapAsync2",
+              "OperationMode": "singleWsdl",
+              "WSDLFileName": "C:\\Users\\IBM_ADMIN\\Desktop\\wsdl\\AccountInformation.wsdl",
+              "PortType": "AccountInformation",
+              "Binding": "AccountInformationSOAP",
+              "BindingOperation": "getBalance",
+              "ServicePort": "AccountInformationSOAP_HTTP_Port",
+              "TargerNamespace": "http://www.ibm.com/DIP/demo/AccountInformation/"
+            }
+          },
+          {
+            "NodeType": "ComputeNode",
+            "ComputeNode": {
+              "id": "a23",
+              "Name": "Create Fault msg",
+              "ESQLFileName": "C:\\Users\\IBM_ADMIN\\Desktop\\wsdl\\esql\\Entity_Endpoint_Invocation_Exception_Compute.esql",
+              "ModuleName": "Entity_Endpoint_Invocation_Exception_Compute"
+            }
+          },
+          {
+            "NodeType": "SOAPReplyNode",
+            "SOAPReplyNode": {
+              "id": "a24",
+              "Name": "SOAP Reply"
+            }
+          }
+        ],
+        "Connections": [
+          {
+            "Connection": {
+              "SourceName": "HTTP.OUT1",
+              "TargetName": "Create Fault msg",
+              "SourceTerminal": "catch",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "SOAP.OUT1",
+              "TargetName": "Create Fault msg",
+              "SourceTerminal": "catch",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "SOAP.OUT2",
+              "TargetName": "Create Fault msg",
+              "SourceTerminal": "catch",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Create Fault msg",
+              "TargetName": "SOAP Reply",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "HTTP.OUT1",
+              "TargetName": "Set HTTP context - 3",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Set HTTP context - 3",
+              "TargetName": "Call backend HTTP service - 1",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Call backend HTTP service - 1",
+              "TargetName": "Check Cust Exists",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Check Cust Exists",
+              "TargetName": "Call backend HTTP service - 2",
+              "SourceTerminal": "true",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Call backend HTTP service - 2",
+              "TargetName": "Aggregate Fan-In - 3",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Call backend HTTP service - 2",
+              "TargetName": "Throw User Exception",
+              "SourceTerminal": "error",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Check Cust Exists",
+              "TargetName": "Aggregate Fan-In - 3",
+              "SourceTerminal": "false",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Aggregate Fan-In - 3",
+              "TargetName": "HTTP.IN1",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "SOAP.OUT1",
+              "TargetName": "Set SOAP context - 1",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Set SOAP context - 1",
+              "TargetName": "Call backend SOAP service - 1",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Call backend SOAP service - 1",
+              "TargetName": "Throw User Exception",
+              "SourceTerminal": "failure",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "SOAP.OUT2",
+              "TargetName": "Set SOAP context - 2",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Set SOAP context - 2",
+              "TargetName": "Call backend SOAP service - 2",
+              "SourceTerminal": "out",
+              "TargetTerminal": "in"
+            }
+          },
+          {
+            "Connection": {
+              "SourceName": "Call backend SOAP service - 2",
+              "TargetName": "Throw User Exception",
+              "SourceTerminal": "failure",
+              "TargetTerminal": "in"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

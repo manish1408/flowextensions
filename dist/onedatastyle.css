@@ -193,7 +193,8 @@ body {
     background: #f8faff;
     border: 1px solid #dae2ea;
     color: #7c9eb2;
-    padding: 10px 10px;
+    padding: 5px;
+    cursor: pointer;
 }
 
 .angular-ui-tree-handle:hover {
@@ -232,7 +233,7 @@ tr.angular-ui-tree-empty {
 }
 
 .tree-node-content {
-    margin: 10px;
+    margin: 5px;
 }
 .tree-handle {
     padding: 10px;
@@ -251,3 +252,13 @@ tr.angular-ui-tree-empty {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+.navbar-brand {
+  height: auto;
+}
+
+/**
+   Coded by /u/j0be in scss.
+   See scss source here -> http://codepen.io/j0be/pen/MKRVyN
+*/
+
+/* Red */ /* --- Style --- */ .navbar-default { background-color: #ccc; border-color: #ddd; } .navbar-default .navbar-brand { color: #000; } .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus { color: #000; } .navbar-default .navbar-nav > li > a { color: #000; } .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus { color: #000; } .navbar-default .navbar-nav .active > a, .navbar-default .navbar-nav .active > a:hover, .navbar-default .navbar-nav .active > a:focus { color: #000; background-color: #ddd; } .navbar-default .navbar-nav .open > a, .navbar-default .navbar-nav .open > a:hover, .navbar-default .navbar-nav .open > a:focus { color: #000; background-color: #ddd; } .navbar-default .navbar-nav .open > a .caret, .navbar-default .navbar-nav .open > a:hover .caret, .navbar-default .navbar-nav .open > a:focus .caret { border-top-color: #000; border-bottom-color: #000; } .navbar-default .navbar-nav > .dropdown > a .caret { border-top-color: #000; border-bottom-color: #000; } .navbar-default .navbar-nav > .dropdown > a:hover .caret, .navbar-default .navbar-nav > .dropdown > a:focus .caret { border-top-color: #000; border-bottom-color: #000; } .navbar-default .navbar-toggle { border-color: #ddd; } .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus { background-color: #ddd; } .navbar-default .navbar-toggle .icon-bar { background-color: #000; } @media (max-width: 767px) { .navbar-default .navbar-nav .open .dropdown-menu > li > a { color: #000; } .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus { color: #000; background-color: #ddd; } } 
