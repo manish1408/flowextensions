@@ -231,6 +231,7 @@ angular.module('app', ['flowchart','ui.tree'])
       nodeCallbacks: {
         'doubleClick': function (event) {
           console.log('Node was doubleclicked.')
+          prompt("Change the name of node")
         }
       }
     };
