@@ -15,9 +15,21 @@ angular.module('app', ['flowchart','ui.tree'])
     var nextNodeID = 10;
     var nextConnectorID = 1;
     var ctrlDown = false;
+    
+
+    /// The above function creates a right panel from the json file
+    $scope.CreateRightPanel = function() {
+      $http.get("json/nodePallete.json")
+      .then(function(response) {
+       $scope.NodePallete  = response.data;
+
+      });
+    };
+    
+    $scope.CreateRightPanel();
 
     $scope.processData = function() {
-      $http.get("xmldata.json")
+      $http.get("json/xmldata.json")
       .then(function(response) {
         var navigationdata =[];
         var template = {
@@ -111,34 +123,7 @@ angular.module('app', ['flowchart','ui.tree'])
     $scope.model = model;
     $scope.modelservice = modelservice;
 
-    $scope.keyDown = function (evt) {
-      if (evt.keyCode === ctrlKeyCode) {
-        ctrlDown = true;
-        evt.stopPropagation();
-        evt.preventDefault();
-      }
-    };
 
-    $scope.keyUp = function (evt) {
-
-      if (evt.keyCode === deleteKeyCode) {
-        modelservice.deleteSelected();
-      }
-
-      if (evt.keyCode == aKeyCode && ctrlDown) {
-        modelservice.selectAll();
-      }
-
-      if (evt.keyCode == escKeyCode) {
-        modelservice.deselectAll();
-      }
-
-      if (evt.keyCode === ctrlKeyCode) {
-        ctrlDown = false;
-        evt.stopPropagation();
-        evt.preventDefault();
-      }
-    };
 
     $scope.addNewNode = function (nodeName, xaxis, yaxis) {
     
