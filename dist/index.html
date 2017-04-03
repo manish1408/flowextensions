@@ -66,13 +66,8 @@
 
       <div class="col-md-2">
 
-        {{NodePallete}}
-
         <ul class="list-group">
-          <li class="list-group-item">Receive Message on MQ</li>
-          <li class="list-group-item">Compute</li>
-          <li class="list-group-item">Mapping</li>
-          <li class="list-group-item">Send Message on MQ</li>
+          <li class="list-group-item" ng-repeat="node in NodePallete.node_palette"><a onclick="alert('Adding Node')">{{node.name}}</a></li>
         </ul>
       </div>
     </div>
