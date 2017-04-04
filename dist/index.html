@@ -30,32 +30,10 @@
         <a class="navbar-brand"> {{allxmlData.FlowInformation.xsinoNamespaceSchemaLocation}} </a>
         </ul>
     </nav>
-    <!--<div class="button-overlay">  
-      <button ng-click="addNewNode()" title="Add a new node to then chart">Add Node</button>
-      <button ng-click="addNewInputConnector()" ng-disabled="modelservice.nodes.getSelectedNodes().length == 0">
-      Add Input Connector
-    </button>
-      <button ng-click="addNewOutputConnector()" ng-disabled="modelservice.nodes.getSelectedNodes().length == 0">
-           Add Output Connector
-    </button>
-      <button ng-click="deleteSelected()" ng-disabled="modelservice.nodes.getSelectedNodes().length == 0 && modelservice.edges.getSelectedEdges().length == 0"
-        title="Delete selected nodes and connections">
-        Delete Selected
-        </button>
-        <button ng-click="activateWorkflow()">
-      Activate Workflow
-    </button>
-    </div>-->
     <div class="row">
       <div class="col-md-2">
         <div class="navigator">
-          <button ng-click="expandAll()" class="btn btn-primary btn-sm">Expand all</button>
-          <button ng-click="collapseAll()" class="btn btn-primary btn-sm">Collapse all</button>
-          <div ui-tree id="tree-root" data-drag-enabled="false">
-            <ol ui-tree-nodes ng-model="data">
-              <li ng-repeat="node in data track by $index" collapsed="true" ui-tree-node ng-include="'nodes_renderer.html'"></li>
-            </ol>
-          </div>
+         
         </div>
       </div>
       <div class="col-md-7">
@@ -67,7 +45,7 @@
       <div class="col-md-2">
 
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="node in NodePallete.node_palette"><a onclick="alert('Adding Node')">{{node.name}}</a></li>
+          <li class="list-group-item" ng-repeat="node in NodePallete.node_palette"><a style="cursor: pointer;" ng-click="addNewNode(node);"><i class="fa fa-sticky-note" aria-hidden="true"></i> {{node.name}}</a></li>
         </ul>
       </div>
     </div>

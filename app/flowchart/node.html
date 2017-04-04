@@ -1,10 +1,10 @@
 <div
   id="{{node.id}}"
   ng-attr-style="position: absolute; top: {{ node.y }}px; left: {{ node.x }}px;"
-  ng-dblclick="callbacks.doubleClick($event)">
-  <div class="innerNode">
-    <p>{{ node.name }}</p>
-
+  ng-dblclick="callbacks.doubleClick($event)" ng-init="editable=false">
+  <div class="innerNode"  ng-click="editable=true" >
+    <p ng-if="!editable">{{ node.name }}</p>
+    <input ng-if="editable" type="text" value="{{node.name}}"/>
     <div class="{{flowchartConstants.topConnectorClass}}">
       <div fc-magnet
            ng-repeat="connector in modelservice.nodes.getConnectorsByType(node, flowchartConstants.topConnectorType)">
@@ -18,6 +18,7 @@
       </div>
     </div>
   </div>
+  <span ng-hide="editable == false"><a style="cursor:pointer;position: absolute;top: 11px;right: -12px;" ng-click="editable=false"><i style="color:red" class="fa fa-times" aria-hidden="true"></i></a></span>
   <div class="fc-nodedelete" ng-click="modelservice.nodes.delete(node)">
     &times;
   </div>

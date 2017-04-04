@@ -52,13 +52,8 @@ body {
 }
 
 .fc-node.fc-hover {
-  -webkit-filter: brightness(70%);
-  filter: brightness(70%);;
 }
-
 .fc-node.fc-selected {
-  -webkit-filter: brightness(70%);
-  filter: brightness(70%);
 }
 
 .fc-node.fc-dragging {

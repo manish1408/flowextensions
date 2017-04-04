@@ -28,93 +28,9 @@ angular.module('app', ['flowchart','ui.tree'])
     
     $scope.CreateRightPanel();
 
-    $scope.processData = function() {
-      $http.get("json/xmldata.json")
-      .then(function(response) {
-        var navigationdata =[];
-        var template = {
-        'id': 1,
-        'title': 'node1',
-        'type': 'flow',
-        'nodes': [
-          {
-            'id': 11,
-            'title': 'node1.1',
-            'nodes': []
-          }
-        ]
-      };
-          $scope.allxmlData = response.data;
-          console.log($scope.allxmlData);
-
-         $scope.allxmlData.FlowInformation.Flows.forEach(function(element) {
-           template.id = element.id;
-           template.title = element.FlowName;
-           template.type = 'flow';
-           template.tooltip = 'Show Diagram for ' + element.FlowName;
-
-            var allNodes = [];
-            element.Node.forEach(function(el) {
-
-
-              allNodes.push({
-                'id': el.NodeType,
-                'title': el.NodeType,
-                'tooltip' : 'Add Node ' +el.NodeType + ' to canvas diagram',
-                'type' : 'node',
-                'nodes': [{
-                  'id': el[Object.keys(el)[1]].id,
-                 'title': el[Object.keys(el)[1]].Name,
-                 'type' : 'attr'
-                }]
-              });
-            }, this);
-
-           
-
-            template.nodes = allNodes;
-
-            navigationdata.push(template);
-
-         }, this);
-
-
-         console.log(navigationdata);
-         $scope.data = navigationdata;
-      });
-    };
-    
-
-    $scope.processData();
     var model = {
       nodes: [],
       edges: []
-    };
-
- var counterY = 1;
-      var counterX = 1;
-    $scope.handleNodeclick = function(node) {
-      var y = 100;
-     
-      if(node.type == 'flow') {
-          node.nodes.forEach(function(element, index) {
-            if(index % 5 === 0 && index != 0) {
-              y = 100;
-              counterY++;
-                y = y * counterY;
-                counterX = 1;
-            }
-            $scope.addNewNode(element, counterX*200,  y);
-            console.log('Plotted at ' + element+ ',' + counterX*200,  y)
-            counterX ++ ;
-            
-          }, this);
-      }
-      if(node.type == 'node') {
-         $scope.addNewNode(node, counterX * 200,  100 * counterY);
-         counterX ++;
-         counterY ++;
-      }
     };
 
     $scope.flowchartselected = [];
@@ -125,49 +41,16 @@ angular.module('app', ['flowchart','ui.tree'])
 
 
 
-    $scope.addNewNode = function (nodeName, xaxis, yaxis) {
-    
+    $scope.addNewNode = function (nodeName) {
       var newNode = {
-        name: nodeName.title,
+        name: nodeName.name,
         id: nextNodeID++,
-        x: xaxis,
-        y: yaxis,
+        x: Math.floor(Math.random() * 500) + 1,
+        y: Math.floor(Math.random() * 300) + 1,
         color: '#F15B26',
-        connectors: [
-          {
-            id: nextConnectorID++,
-            type: flowchartConstants.topConnectorType
-          },
-          {
-            id: nextConnectorID++,
-            type: flowchartConstants.topConnectorType
-          },
-          {
-            id: nextConnectorID++,
-            type: flowchartConstants.bottomConnectorType
-          },
-          {
-            id: nextConnectorID++,
-            type: flowchartConstants.bottomConnectorType
-          }
-        ]
+        connectors: []
       };
-
       model.nodes.push(newNode);
-      // model.edges.push(
-      //    {
-      //     source: 1,
-      //     destination: 25
-      //   },
-      //   {
-      //     source: 5,
-      //     destination: 50
-      //   },
-      //   {
-      //     source: 4,
-      //     destination: 60
-      //   }
-      // );
     };
 
     $scope.activateWorkflow = function () {
@@ -231,7 +114,7 @@ angular.module('app', ['flowchart','ui.tree'])
       nodeCallbacks: {
         'doubleClick': function (event) {
           console.log('Node was doubleclicked.')
-          prompt("Change the name of node")
+          // prompt("Change the name of node")
         }
       }
     };
