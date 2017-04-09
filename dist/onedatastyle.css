@@ -1,5 +1,6 @@
-body {
+body, html{
   font-family: sans-serif;
+  height: 100%;
 }
 
 .button-overlay {
@@ -237,8 +238,6 @@ tr.angular-ui-tree-empty {
     margin-right: 10px;
 }
 
-.angular-ui-tree-handle:hover {
-}
 
 .angular-ui-tree-placeholder {
     background: #f0f9ff;
@@ -249,6 +248,23 @@ tr.angular-ui-tree-empty {
 }
 .navbar-brand {
   height: auto;
+}
+.left-panel {
+  border-right: solid 1px #cccccc;
+  height: 100vh;
+}
+.right-panel {
+   border-left: solid 1px #cccccc;
+    height: 100vh;
+}
+.navigator .list-group-item {
+  border: 0px;
+}
+.inner-list .list-group-item{
+  padding: 0px;
+  border: 0px;
+  margin-left:15px;
+  font-size: 11px;
 }
 
 /**

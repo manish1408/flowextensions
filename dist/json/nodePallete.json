@@ -1,1 +1,121 @@
-{ "node_palette": [{ "id": "ComIbmMQInput", "name": "Receive Message on MQ", "input_terminals": [], "output_terminals": ["Output", "Failure"], "properties": [{ "name": "Name", "type": "string", "mandatory": true }, { "name": "Description", "type": "string", "mandatory": false }, { "name": "Queue Name", "type": "string", "mandatory": true }, { "name": "Message Type", "type": "string", "mandatory": true }] }, { "id": "ComIbmCompute", "name": "Compute", "input_terminals": ["Input"], "output_terminals": ["Output", "Failure"], "properties": [{ "name": "Name", "type": "string", "mandatory": true }, { "name": "Description", "type": "string", "mandatory": false }, { "name": "Code File Path", "type": "string", "mandatory": true }] }, { "id": "ComIbmMapping", "name": "Mapping", "input_terminals": ["Input"], "output_terminals": ["Output", "Failure"], "properties": [{ "name": "Name", "type": "string", "mandatory": true }, { "name": "Description", "type": "string", "mandatory": false }, { "name": "Input Data Structure Path", "type": "string", "mandatory": true }, { "name": "Output Data Structure Path", "type": "string", "mandatory": true }] }, { "id": "ComIbmMQOutput", "name": "Send Message on MQ", "input_terminals": ["Input"], "output_terminals": [], "properties": [{ "name": "Name", "type": "string", "mandatory": true }, { "name": "Description", "type": "string", "mandatory": false }, { "name": "Queue Name", "type": "string", "mandatory": true }] }] }
+{
+    "node_palette": [
+        {
+            "id": "ComIbmMQInput",
+            "name": "Receive Message on MQ",
+            "input_terminals": [],
+            "output_terminals": [
+                "Output",
+                "Failure"
+            ],
+            "properties": [
+                {
+                    "name": "Name",
+                    "type": "string",
+                    "mandatory": true
+                },
+                {
+                    "name": "Description",
+                    "type": "string",
+                    "mandatory": false
+                },
+                {
+                    "name": "Queue Name",
+                    "type": "string",
+                    "mandatory": true
+                },
+                {
+                    "name": "Message Type",
+                    "type": "string",
+                    "mandatory": true
+                }
+            ]
+        },
+        {
+            "id": "ComIbmCompute",
+            "name": "Compute",
+            "input_terminals": [
+                "Input"
+            ],
+            "output_terminals": [
+                "Output",
+                "Failure"
+            ],
+            "properties": [
+                {
+                    "name": "Name",
+                    "type": "string",
+                    "mandatory": true
+                },
+                {
+                    "name": "Description",
+                    "type": "string",
+                    "mandatory": false
+                },
+                {
+                    "name": "Code File Path",
+                    "type": "string",
+                    "mandatory": true
+                }
+            ]
+        },
+        {
+            "id": "ComIbmMapping",
+            "name": "Mapping",
+            "input_terminals": [
+                "Input"
+            ],
+            "output_terminals": [
+                "Output",
+                "Failure"
+            ],
+            "properties": [
+                {
+                    "name": "Name",
+                    "type": "string",
+                    "mandatory": true
+                },
+                {
+                    "name": "Description",
+                    "type": "string",
+                    "mandatory": false
+                },
+                {
+                    "name": "Input Data Structure Path",
+                    "type": "string",
+                    "mandatory": true
+                },
+                {
+                    "name": "Output Data Structure Path",
+                    "type": "string",
+                    "mandatory": true
+                }
+            ]
+        },
+        {
+            "id": "ComIbmMQOutput",
+            "name": "Send Message on MQ",
+            "input_terminals": [
+                "Input"
+            ],
+            "output_terminals": [],
+            "properties": [
+                {
+                    "name": "Name",
+                    "type": "string",
+                    "mandatory": true
+                },
+                {
+                    "name": "Description",
+                    "type": "string",
+                    "mandatory": false
+                },
+                {
+                    "name": "Queue Name",
+                    "type": "string",
+                    "mandatory": true
+                }
+            ]
+        }
+    ]
+}

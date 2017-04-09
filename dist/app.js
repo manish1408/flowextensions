@@ -48,9 +48,20 @@ angular.module('app', ['flowchart','ui.tree'])
         x: Math.floor(Math.random() * 500) + 1,
         y: Math.floor(Math.random() * 300) + 1,
         color: '#F15B26',
+        properties: nodeName.properties ,
         connectors: []
       };
+
+      nodeName.input_terminals.forEach(function(element) {
+        newNode.connectors.push({ id: nextConnectorID++, type: flowchartConstants.topConnectorType, });
+      }, this);
+
+      nodeName.output_terminals.forEach(function(element) {
+        newNode.connectors.push({ id: nextConnectorID++, type: flowchartConstants.bottomConnectorType, });
+      }, this);
+
       model.nodes.push(newNode);
+      
     };
 
     $scope.activateWorkflow = function () {
@@ -68,7 +79,7 @@ angular.module('app', ['flowchart','ui.tree'])
       var selectedNodes = modelservice.nodes.getSelectedNodes($scope.model);
       for (var i = 0; i < selectedNodes.length; ++i) {
         var node = selectedNodes[i];
-        node.connectors.push({ id: nextConnectorID++, type: flowchartConstants.topConnectorType });
+        node.connectors.push({ id: nextConnectorID++, type: flowchartConstants.topConnectorType, });
       }
     };
 
@@ -119,53 +130,5 @@ angular.module('app', ['flowchart','ui.tree'])
       }
     };
     modelservice.registerCallbacks($scope.callbacks.edgeAdded, $scope.callbacks.nodeRemoved, $scope.callbacks.edgeRemoved);
-
-    $scope.remove = function (scope) {
-        scope.remove();
-      };
-
-      $scope.toggle = function (scope) {
-        scope.toggle();
-      };
-
-      $scope.moveLastToTheBeginning = function () {
-        var a = $scope.data.pop();
-        $scope.data.splice(0, 0, a);
-      };
-
-      $scope.newSubItem = function (scope, type) {
-        var nodeData = scope.$modelValue;
-        if (type === 'node') {
-           nodeData.nodes.push({
-            id: nodeData.id * 10 + nodeData.nodes.length,
-            title: nodeData.title + '.' + (nodeData.nodes.length + 1),
-            type: 'attr'
-          });
-        } else if (type === 'flow'){
-             nodeData.nodes.push({
-            id: nodeData.id * 10 + nodeData.nodes.length,
-            title: nodeData.title + '.' + (nodeData.nodes.length + 1),
-            type: 'node',
-            nodes: []
-          });
-        } else {
-             nodeData.nodes.push({
-            id: nodeData.id * 10 + nodeData.nodes.length,
-            title: nodeData.title + '.' + (nodeData.nodes.length + 1),
-            nodes: []
-          });
-        }
-      };
-
-      $scope.collapseAll = function () {
-        $scope.$broadcast('angular-ui-tree:collapse-all');
-      };
-
-
-      $scope.expandAll = function () {
-        $scope.$broadcast('angular-ui-tree:expand-all');
-      };
-      
-      
 
   });
