@@ -13,7 +13,7 @@
   <div class="container-fluid">
     <nav class="navbar navbar-default">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">XML Editor</a>
+        <a class="navbar-brand" href="#">Node_Flow Editor</a>
       </div>
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Home</a></li>
@@ -35,7 +35,7 @@
         <div class="left-panel">
           <div class="navigator">
             <ul class="list-group">
-              <li class="list-group-item" ng-repeat="node in model.nodes"><i class="fa fa-sticky-note" aria-hidden="true"></i> {{node.name}}
+              <li class="list-group-item leftnav" ng-repeat="node in model.nodes"><i class="fa fa-sticky-note" aria-hidden="true"></i> {{node.name}}
                 <ul class="list-group inner-list">
                   <li class="list-group-item" ng-repeat="p in node.properties"><i class="fa fa-product-hunt" aria-hidden="true"></i> {{p.name}}</li>
                 </ul>
@@ -46,6 +46,7 @@
       </div>
       <div class="col-md-7">
         <div class="canvas-workflow">
+          {{model}}
           <fc-canvas model="model" selected-objects="flowchartselected" edge-style="curved" callbacks="callbacks" automatic-resize="true"></fc-canvas>
         </div>
       </div>
@@ -53,7 +54,7 @@
       <div class="col-md-2">
 
         <ul class="list-group right-panel">
-          <li class="list-group-item" ng-repeat="node in NodePallete.node_palette"><a style="cursor: pointer;" ng-click="addNewNode(node);"><i class="fa fa-sticky-note" aria-hidden="true"></i> {{node.name}}</a></li>
+          <li class="list-group-item rightnav" ng-repeat="node in NodePallete.node_palette"><a style="cursor: pointer;" ng-click="addNewNode(node);"><i class="fa fa-sticky-note" aria-hidden="true"></i> {{node.name}}</a></li>
         </ul>
       </div>
     </div>

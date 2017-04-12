@@ -31,8 +31,8 @@ angular.module('app', ['flowchart','ui.tree'])
     var model = {
       nodes: [],
       edges: []
-    };
-
+      };
+      
     $scope.flowchartselected = [];
     var modelservice = Modelfactory(model, $scope.flowchartselected);
 
@@ -122,6 +122,7 @@ angular.module('app', ['flowchart','ui.tree'])
         console.log("edge removed");
         console.log(edge);
       },
+      
       nodeCallbacks: {
         'doubleClick': function (event) {
           console.log('Node was doubleclicked.')

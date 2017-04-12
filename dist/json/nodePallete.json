@@ -59,6 +59,7 @@
                 }
             ]
         },
+        
         {
             "id": "ComIbmMapping",
             "name": "Mapping",
@@ -91,6 +92,7 @@
                     "mandatory": true
                 }
             ]
+            
         },
         {
             "id": "ComIbmMQOutput",

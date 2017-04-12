@@ -261,10 +261,18 @@ tr.angular-ui-tree-empty {
   border: 0px;
 }
 .inner-list .list-group-item{
-  padding: 0px;
-  border: 0px;
-  margin-left:15px;
-  font-size: 11px;
+ padding: 2px 2px 0px 0px;
+ margin-bottom: 2px;
+ border: 0px;
+ margin-left: 15px;
+ font-size: 12px;
+}
+
+.leftnav {
+background-color: aliceblue;
+}
+.rightnav:hover{
+  background-color: aliceblue;
 }
 
 /**
