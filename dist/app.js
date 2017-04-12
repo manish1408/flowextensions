@@ -25,6 +25,7 @@ angular.module('app', ['flowchart','ui.tree'])
 
       });
     };
+
     
     $scope.CreateRightPanel();
 
@@ -48,6 +49,7 @@ angular.module('app', ['flowchart','ui.tree'])
         x: Math.floor(Math.random() * 500) + 1,
         y: Math.floor(Math.random() * 300) + 1,
         color: '#F15B26',
+        editable: false,  
         properties: nodeName.properties ,
         connectors: []
       };
@@ -63,6 +65,11 @@ angular.module('app', ['flowchart','ui.tree'])
       model.nodes.push(newNode);
       
     };
+
+
+
+
+
 
     $scope.activateWorkflow = function () {
       angular.forEach($scope.model.edges, function (edge) {

@@ -4,7 +4,7 @@
   ng-dblclick="callbacks.doubleClick($event)" ng-init="editable=false">
   <div class="innerNode"  ng-click="editable=true" >
     <p ng-if="!editable">{{ node.name }}</p>
-    <input ng-if="editable" type="text" value="{{node.name}}"/>
+    <input ng-if="editable" type="text" ng-model="node.name"/>
     <div class="{{flowchartConstants.topConnectorClass}}">
       <div fc-magnet
            ng-repeat="connector in modelservice.nodes.getConnectorsByType(node, flowchartConstants.topConnectorType)">
