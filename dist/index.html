@@ -25,6 +25,7 @@
         <li ng-click="addNewOutputConnector()" ng-if="modelservice.nodes.getSelectedNodes().length != 0">
           <a> Add Output Connector </a>
         </li>
+        <li> <button ng-click="saveNodes();">Save</button> </li>
       </ul>
       <div class="navbar-header pull-right">
         <a class="navbar-brand"> {{allxmlData.FlowInformation.xsinoNamespaceSchemaLocation}} </a>

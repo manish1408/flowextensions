@@ -26,19 +26,37 @@ angular.module('app', ['flowchart','ui.tree'])
       });
     };
 
+    /// The above function creates a right panel from the json file
+    $scope.saveNodes = function() {
+      $http.post("https://pn-connectnode.mybluemix.net/api/connectNodeModels/replaceOrCreate", $scope.model )
+      .then(function(response) {
+        alert("Saved Successfully");
+      });
+    };
+
+    $scope.getNodes = function() {
+      $http.get("https://pn-connectnode.mybluemix.net/api/connectNodeModels/6934cfbbea1180bf6ccee51727d7de32")
+      .then(function(response) {
+        console.log(response);
+        delete response.data.id;
+        $scope.model = response.data;
+      });
+    };
+
+    $scope.getNodes();
     
     $scope.CreateRightPanel();
 
-    var model = {
+    $scope.model = {
       nodes: [],
       edges: []
       };
       
     $scope.flowchartselected = [];
-    var modelservice = Modelfactory(model, $scope.flowchartselected);
+    //var modelservice = 
 
-    $scope.model = model;
-    $scope.modelservice = modelservice;
+    // $scope.model = model;
+    $scope.modelservice = Modelfactory($scope.model, $scope.flowchartselected);;
 
 
 
@@ -62,7 +80,7 @@ angular.module('app', ['flowchart','ui.tree'])
         newNode.connectors.push({ id: nextConnectorID++, type: flowchartConstants.bottomConnectorType, });
       }, this);
 
-      model.nodes.push(newNode);
+      $scope.model.nodes.push(newNode);
       
     };
 
@@ -137,6 +155,6 @@ angular.module('app', ['flowchart','ui.tree'])
         }
       }
     };
-    modelservice.registerCallbacks($scope.callbacks.edgeAdded, $scope.callbacks.nodeRemoved, $scope.callbacks.edgeRemoved);
+    $scope.modelservice.registerCallbacks($scope.callbacks.edgeAdded, $scope.callbacks.nodeRemoved, $scope.callbacks.edgeRemoved);
 
   });
