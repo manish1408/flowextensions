@@ -43,8 +43,8 @@
                 <ul class="list-group inner-list">
                   <li class="list-group-item" ng-repeat="p in node.properties">
                     <i class="fa fa-product-hunt" aria-hidden="true"></i> 
-                     <span ng-show="p.editable === false" ng-click="p.editable = true"> {{p.name}} </span>
-                    <input type="text" ng-model= "p.name"  ng-show="p.editable === true">
+                     <span ng-click="p.editable = true"> {{p.name}} </span>
+                    <input type="text" ng-model= "p.value" placeholder="Add value"  ng-show="p.editable === true">
                     <a ng-show="p.editable === true" ng-click="p.editable = false"><span class="fa fa-check"> </span></a>
                   </li>
                 </ul>
