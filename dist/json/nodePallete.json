@@ -12,22 +12,26 @@
                 {
                     "name": "Name",
                     "type": "string",
-                    "mandatory": true
+                    "mandatory": true,
+                    "editable": false
                 },
                 {
                     "name": "Description",
                     "type": "string",
-                    "mandatory": false
+                     "mandatory": true,
+                    "editable": false
                 },
                 {
                     "name": "Queue Name",
                     "type": "string",
-                    "mandatory": true
+                    "mandatory": true,
+                    "editable": false
                 },
                 {
                     "name": "Message Type",
                     "type": "string",
-                    "mandatory": true
+                     "mandatory": true,
+                    "editable": false
                 }
             ]
         },
@@ -45,17 +49,20 @@
                 {
                     "name": "Name",
                     "type": "string",
-                    "mandatory": true
+                     "mandatory": true,
+                    "editable": false
                 },
                 {
                     "name": "Description",
                     "type": "string",
-                    "mandatory": false
+                     "mandatory": true,
+                    "editable": false
                 },
                 {
                     "name": "Code File Path",
                     "type": "string",
-                    "mandatory": true
+                    "mandatory": true,
+                    "editable": false
                 }
             ]
         },
@@ -74,22 +81,26 @@
                 {
                     "name": "Name",
                     "type": "string",
-                    "mandatory": true
+                     "mandatory": true,
+                    "editable": false
                 },
                 {
                     "name": "Description",
                     "type": "string",
-                    "mandatory": false
+                     "mandatory": true,
+                    "editable": false
                 },
                 {
                     "name": "Input Data Structure Path",
                     "type": "string",
-                    "mandatory": true
+                     "mandatory": true,
+                    "editable": false
                 },
                 {
                     "name": "Output Data Structure Path",
                     "type": "string",
-                    "mandatory": true
+                     "mandatory": true,
+                    "editable": false
                 }
             ]
             
@@ -105,17 +116,20 @@
                 {
                     "name": "Name",
                     "type": "string",
-                    "mandatory": true
+                     "mandatory": true,
+                    "editable": false
                 },
                 {
                     "name": "Description",
                     "type": "string",
-                    "mandatory": false
+                     "mandatory": true,
+                    "editable": false
                 },
                 {
                     "name": "Queue Name",
                     "type": "string",
-                    "mandatory": true
+                     "mandatory": true,
+                    "editable": false
                 }
             ]
         }

@@ -43,7 +43,7 @@ angular.module('app', ['flowchart','ui.tree'])
       });
     };
 
-    $scope.getNodes();
+    //$scope.getNodes();
     
     $scope.CreateRightPanel();
 
