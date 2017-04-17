@@ -49,7 +49,9 @@ angular.module('app', ['flowchart','ui.tree'])
 
     $scope.model = {
       nodes: [],
-      edges: []
+      edges: [],
+      projectName: "",
+      flowName: ""
       };
       
     $scope.flowchartselected = [];
