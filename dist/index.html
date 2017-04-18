@@ -11,7 +11,22 @@
   
 </head>
 
-<body ng-app="app" ng-controller="AppCtrl" ng-keydown="keyDown($event)" ng-keyup="keyUp($event)">
+<body ng-app="app" ng-controller="AppCtrl">
+
+  <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Edit Node</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+            Selected:  
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+
   <div class="container-fluid">
     <nav class="navbar navbar-default">
       <div class="navbar-header">

@@ -1,4 +1,4 @@
-angular.module('app', ['flowchart','ui.tree'])
+angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
   .factory('prompt', function () {
     return prompt;
   })
@@ -6,7 +6,7 @@ angular.module('app', ['flowchart','ui.tree'])
     NodeTemplatePathProvider.setTemplatePath("flowchart/node.html");
   })
 
-  .controller('AppCtrl', function AppCtrl($scope, prompt, Modelfactory, flowchartConstants, $http) {
+  .controller('AppCtrl', function AppCtrl($scope, prompt, Modelfactory, flowchartConstants, $http, $uibModal, $log) {
 
     var deleteKeyCode = 46;
     var ctrlKeyCode = 17;
@@ -15,34 +15,34 @@ angular.module('app', ['flowchart','ui.tree'])
     var nextNodeID = 10;
     var nextConnectorID = 1;
     var ctrlDown = false;
-    
+
 
     /// The above function creates a right panel from the json file
-    $scope.CreateRightPanel = function() {
+    $scope.CreateRightPanel = function () {
       $http.get("json/nodePallete.json")
-      .then(function(response) {
-       $scope.NodePallete  = response.data;
+        .then(function (response) {
+          $scope.NodePallete = response.data;
 
-      });
+        });
     };
 
     /// The above function creates a right panel from the json file
-    $scope.saveNodes = function() {
-      $http.post("https://pn-connectnode.mybluemix.net/api/connectNodeModels/replaceOrCreate", $scope.model )
-      .then(function(response) {
-        console.log(response.data.id);
-        alert("Saved Successfully: " + response.data.id);
-        $scope.savedId = response.data.id;
-      });
+    $scope.saveNodes = function () {
+      $http.post("https://pn-connectnode.mybluemix.net/api/connectNodeModels/replaceOrCreate", $scope.model)
+        .then(function (response) {
+          console.log(response.data.id);
+          alert("Saved Successfully: " + response.data.id);
+          $scope.savedId = response.data.id;
+        });
     };
 
-    $scope.updateNodes = function() {
-      $http.post("https://pn-connectnode.mybluemix.net/api/connectNodeModels/"+$scope.savedId+"/replace", $scope.model)
-      .then(function(response) {
-        console.log(response);
-        alert("Updated Successfully: " + response.data.id);
-        $scope.savedId = response.data.id;
-      });
+    $scope.updateNodes = function () {
+      $http.post("https://pn-connectnode.mybluemix.net/api/connectNodeModels/" + $scope.savedId + "/replace", $scope.model)
+        .then(function (response) {
+          console.log(response);
+          alert("Updated Successfully: " + response.data.id);
+          $scope.savedId = response.data.id;
+        });
     };
 
     // $scope.getNodes = function() {
@@ -55,7 +55,7 @@ angular.module('app', ['flowchart','ui.tree'])
     // };
 
     //$scope.getNodes();
-    
+
     $scope.CreateRightPanel();
 
     $scope.model = {
@@ -63,8 +63,8 @@ angular.module('app', ['flowchart','ui.tree'])
       edges: [],
       projectName: "",
       flowName: ""
-      };
-      
+    };
+
     $scope.flowchartselected = [];
     //var modelservice = 
 
@@ -80,21 +80,21 @@ angular.module('app', ['flowchart','ui.tree'])
         x: Math.floor(Math.random() * 500) + 1,
         y: Math.floor(Math.random() * 300) + 1,
         color: '#F15B26',
-        editable: false,  
-        properties: nodeName.properties ,
+        editable: false,
+        properties: nodeName.properties,
         connectors: []
       };
 
-      nodeName.input_terminals.forEach(function(element) {
+      nodeName.input_terminals.forEach(function (element) {
         newNode.connectors.push({ id: nextConnectorID++, type: flowchartConstants.topConnectorType, });
       }, this);
 
-      nodeName.output_terminals.forEach(function(element) {
+      nodeName.output_terminals.forEach(function (element) {
         newNode.connectors.push({ id: nextConnectorID++, type: flowchartConstants.bottomConnectorType, });
       }, this);
 
       $scope.model.nodes.push(newNode);
-      
+
     };
 
 
@@ -160,14 +160,34 @@ angular.module('app', ['flowchart','ui.tree'])
         console.log("edge removed");
         console.log(edge);
       },
-      
+
       nodeCallbacks: {
         'doubleClick': function (event) {
           console.log('Node was doubleclicked.')
           // prompt("Change the name of node")
+        },
+        'click': function (event) {
+          console.log('Node was clicked.')
+          var modalInstance = $uibModal.open({
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'myModalContent.html',
+            controller: 'ModalInstanceCtrl',
+          });
         }
       }
     };
+    
     $scope.modelservice.registerCallbacks($scope.callbacks.edgeAdded, $scope.callbacks.nodeRemoved, $scope.callbacks.edgeRemoved);
 
-  });
+  })
+
+  .controller('ModalInstanceCtrl', function ($uibModalInstance, $scope) {
+  $scope.ok = function () {
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+});

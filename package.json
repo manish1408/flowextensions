@@ -27,6 +27,7 @@
     "wallaby-ng-html2js-preprocessor": "^0.1.0"
   },
   "dependencies": {
+    "angular-bootstrap-npm": "^0.14.3",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-angular-filesort": "^1.1.1",

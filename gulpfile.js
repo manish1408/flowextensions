@@ -35,7 +35,8 @@ gulp.task('vendorCss', function() {
   var ret = gulp.src(
     ['app/bower_components/angular-ui-tree/dist/angular-ui-tree.min.css',
     'app/bower_components/bootstrap/dist/css/bootstrap.min.css',
-    'app/bower_components/font-awesome/css/font-awesome.css'
+    'app/bower_components/font-awesome/css/font-awesome.css',
+    'app/bower_components/angular-bootstrap/ui-bootstrap-csp.css'
     ])
     .pipe(concat('vendor.css'))
     .pipe(gulp.dest('dist/'));
@@ -46,7 +47,7 @@ gulp.task('vendorCss', function() {
 gulp.task('flowchartScripts', function() {
   safeReload++;
   var ret = merge2(
-    gulp.src(['app/flowchart/*.js', 'app/bower_components/bind-polyfill/index.js', '!app/flowchart/*_test.js'])
+    gulp.src(['app/flowchart/*.js','app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js','app/bower_components/angular-bootstrap/ui-bootstrap.js', 'app/bower_components/bind-polyfill/index.js', '!app/flowchart/*_test.js'])
       .pipe(ngAnnotate())
       .pipe(ngFilesort()),
     gulp.src('app/flowchart/*.html')
