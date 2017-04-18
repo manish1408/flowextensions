@@ -30,18 +30,29 @@ angular.module('app', ['flowchart','ui.tree'])
     $scope.saveNodes = function() {
       $http.post("https://pn-connectnode.mybluemix.net/api/connectNodeModels/replaceOrCreate", $scope.model )
       .then(function(response) {
-        alert("Saved Successfully");
+        console.log(response.data.id);
+        alert("Saved Successfully: " + response.data.id);
+        $scope.savedId = response.data.id;
       });
     };
 
-    $scope.getNodes = function() {
-      $http.get("https://pn-connectnode.mybluemix.net/api/connectNodeModels/6934cfbbea1180bf6ccee51727d7de32")
+    $scope.updateNodes = function() {
+      $http.post("https://pn-connectnode.mybluemix.net/api/connectNodeModels/"+$scope.savedId+"/replace", $scope.model)
       .then(function(response) {
         console.log(response);
-        delete response.data.id;
-        $scope.model = response.data;
+        alert("Updated Successfully: " + response.data.id);
+        $scope.savedId = response.data.id;
       });
     };
+
+    // $scope.getNodes = function() {
+    //   $http.get("https://pn-connectnode.mybluemix.net/api/connectNodeModels/6934cfbbea1180bf6ccee51727d7de32")
+    //   .then(function(response) {
+    //     console.log(response);
+    //     delete response.data.id;
+    //     $scope.model = response.data;
+    //   });
+    // };
 
     //$scope.getNodes();
     
@@ -103,7 +114,7 @@ angular.module('app', ['flowchart','ui.tree'])
         return;
       }
 
-      var selectedNodes = modelservice.nodes.getSelectedNodes($scope.model);
+      var selectedNodes = $scope.modelservice.nodes.getSelectedNodes($scope.model);
       for (var i = 0; i < selectedNodes.length; ++i) {
         var node = selectedNodes[i];
         node.connectors.push({ id: nextConnectorID++, type: flowchartConstants.topConnectorType, });
@@ -116,7 +127,7 @@ angular.module('app', ['flowchart','ui.tree'])
         return;
       }
 
-      var selectedNodes = modelservice.nodes.getSelectedNodes($scope.model);
+      var selectedNodes = $scope.modelservice.nodes.getSelectedNodes($scope.model);
       for (var i = 0; i < selectedNodes.length; ++i) {
         var node = selectedNodes[i];
         node.connectors.push({ id: nextConnectorID++, type: flowchartConstants.bottomConnectorType });
@@ -124,7 +135,7 @@ angular.module('app', ['flowchart','ui.tree'])
     };
 
     $scope.deleteSelected = function () {
-      modelservice.deleteSelected();
+      $scope.modelservice.deleteSelected();
     };
 
     $scope.callbacks = {

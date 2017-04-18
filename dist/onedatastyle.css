@@ -182,7 +182,9 @@ body, html{
 
 
 .btn {
-    margin-right: 8px;
+    /*margin-right: 30px;*/
+    margin-left: 30px;
+    border-radius: 15px;
 }
 
 .angular-ui-tree-handle {
@@ -261,11 +263,11 @@ tr.angular-ui-tree-empty {
   border: 0px;
 }
 .inner-list .list-group-item{
- padding: 2px 2px 0px 0px;
+ padding: 4px 2px 0px 3px;
  margin-bottom: 2px;
  border: 0px;
  margin-left: 15px;
- font-size: 12px;
+ font-size: 13px;
 }
 
 .leftnav {
