@@ -18,10 +18,19 @@
       <h3 class="modal-title" id="modal-title">Edit Node</h3>
     </div>
     <div class="modal-body" id="modal-body">
+    <div class="edit-form">
       <div class="form-group">
         <label for="email">Node Name:</label>
         <input type="text" class="form-control" id="text" ng-model="selectedNode.name">
+      </div> 
+      <fieldset> 
+      <legend>Properties</legend>
+      <div class="form-group" ng-repeat= "p in selectedNode.properties">
+        <label>{{p.name}}</label>
+        <input type="text" class="form-control"  ng-model="p.value">
       </div>
+      </fieldset>
+     </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>

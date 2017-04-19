@@ -276,6 +276,10 @@ background-color: aliceblue;
 .rightnav:hover{
   background-color: aliceblue;
 }
+.edit-form .form-control{
+  width: initial;
+  height: auto;
+}
 
 /**
    Coded by /u/j0be in scss.
