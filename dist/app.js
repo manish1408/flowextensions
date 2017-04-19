@@ -6,7 +6,7 @@ angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
     NodeTemplatePathProvider.setTemplatePath("flowchart/node.html");
   })
 
-  .controller('AppCtrl', function AppCtrl($scope, prompt, Modelfactory, flowchartConstants, $http, $uibModal, $log) {
+  .controller('AppCtrl', function AppCtrl($scope, prompt, Modelfactory, flowchartConstants, $http, $uibModal, $log, $rootScope) {
 
     var deleteKeyCode = 46;
     var ctrlKeyCode = 17;
@@ -28,7 +28,7 @@ angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
 
     /// The above function creates a right panel from the json file
     $scope.saveNodes = function () {
-      $http.post("https://pn-connectnode.mybluemix.net/api/connectNodeModels/replaceOrCreate", $scope.model)
+      $http.post("https://pn-connectnode.mybluemix.net/api/connectNodeModels/replaceOrCreate", $rootScope.model)
         .then(function (response) {
           console.log(response.data.id);
           alert("Saved Successfully: " + response.data.id);
@@ -37,7 +37,7 @@ angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
     };
 
     $scope.updateNodes = function () {
-      $http.post("https://pn-connectnode.mybluemix.net/api/connectNodeModels/" + $scope.savedId + "/replace", $scope.model)
+      $http.post("https://pn-connectnode.mybluemix.net/api/connectNodeModels/" + $scope.savedId + "/replace", $rootScope.model)
         .then(function (response) {
           console.log(response);
           alert("Updated Successfully: " + response.data.id);
@@ -50,7 +50,7 @@ angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
     //   .then(function(response) {
     //     console.log(response);
     //     delete response.data.id;
-    //     $scope.model = response.data;
+    //     $rootScope.model = response.data;
     //   });
     // };
 
@@ -58,7 +58,7 @@ angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
 
     $scope.CreateRightPanel();
 
-    $scope.model = {
+    $rootScope.model = {
       nodes: [],
       edges: [],
       projectName: "",
@@ -68,8 +68,8 @@ angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
     $scope.flowchartselected = [];
     //var modelservice = 
 
-    // $scope.model = model;
-    $scope.modelservice = Modelfactory($scope.model, $scope.flowchartselected);;
+    // $rootScope.model = model;
+    $rootScope.modelservice = Modelfactory($rootScope.model, $scope.flowchartselected);;
 
 
 
@@ -93,7 +93,7 @@ angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
         newNode.connectors.push({ id: nextConnectorID++, type: flowchartConstants.bottomConnectorType, });
       }, this);
 
-      $scope.model.nodes.push(newNode);
+      $rootScope.model.nodes.push(newNode);
 
     };
 
@@ -103,7 +103,7 @@ angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
 
 
     $scope.activateWorkflow = function () {
-      angular.forEach($scope.model.edges, function (edge) {
+      angular.forEach($rootScope.model.edges, function (edge) {
         edge.active = !edge.active;
       });
     };
@@ -114,7 +114,7 @@ angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
         return;
       }
 
-      var selectedNodes = $scope.modelservice.nodes.getSelectedNodes($scope.model);
+      var selectedNodes = $rootScope.modelservice.nodes.getSelectedNodes($rootScope.model);
       for (var i = 0; i < selectedNodes.length; ++i) {
         var node = selectedNodes[i];
         node.connectors.push({ id: nextConnectorID++, type: flowchartConstants.topConnectorType, });
@@ -127,7 +127,7 @@ angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
         return;
       }
 
-      var selectedNodes = $scope.modelservice.nodes.getSelectedNodes($scope.model);
+      var selectedNodes = $rootScope.modelservice.nodes.getSelectedNodes($rootScope.model);
       for (var i = 0; i < selectedNodes.length; ++i) {
         var node = selectedNodes[i];
         node.connectors.push({ id: nextConnectorID++, type: flowchartConstants.bottomConnectorType });
@@ -135,8 +135,9 @@ angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
     };
 
     $scope.deleteSelected = function () {
-      $scope.modelservice.deleteSelected();
+      $rootScope.modelservice.deleteSelected();
     };
+
 
     $scope.callbacks = {
       edgeDoubleClick: function () {
@@ -166,19 +167,21 @@ angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
           console.log('Node was doubleclicked.')
           // prompt("Change the name of node")
         },
-        'click': function (event) {
-          console.log('Node was clicked.')
+        'click': function (selected) {
+          console.log('Node was clicked.');
+          $rootScope.selectedNode = selected;
           var modalInstance = $uibModal.open({
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
             templateUrl: 'myModalContent.html',
             controller: 'ModalInstanceCtrl',
           });
+          console.log($rootScope.selectedNode);
         }
       }
     };
     
-    $scope.modelservice.registerCallbacks($scope.callbacks.edgeAdded, $scope.callbacks.nodeRemoved, $scope.callbacks.edgeRemoved);
+    $rootScope.modelservice.registerCallbacks($scope.callbacks.edgeAdded, $scope.callbacks.nodeRemoved, $scope.callbacks.edgeRemoved);
 
   })
 
