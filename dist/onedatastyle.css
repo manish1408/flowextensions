@@ -278,6 +278,10 @@ background-color: #ecf0f1;
   width: initial;
   height: auto;
 }
+.edit-form .form-control{
+  width: initial;
+  height: auto;
+}
 
 /**
    Coded by /u/j0be in scss.

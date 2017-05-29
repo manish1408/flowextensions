@@ -1,6 +1,5 @@
 {
   "name": "flowextensions",
-  "version": "0.1",
   "description": "Customizable drag & drop flowchart directive for AngularJS",
   "license": "MIT",
   "devDependencies": {
