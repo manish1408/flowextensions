@@ -21,7 +21,7 @@
       },
       link: function(scope, element) {
         scope.flowchartConstants = flowchartConstants;
-        element.attr('draggable', 'true');
+        element.attr('draggable', 'false');
 
         element.on('dragstart', scope.fcCallbacks.nodeDragstart(scope.node));
         element.on('dragend', scope.fcCallbacks.nodeDragend);

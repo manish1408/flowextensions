@@ -22,6 +22,10 @@
         <label for="email">Node Name:</label>
         <input type="text" class="form-control" id="text" ng-model="selectedNode.name">
       </div>
+       <div class="form-group">
+        <label for="email">Node Name:</label>
+        <input type="text" class="form-control" id="text" ng-model="selectedNode.name">
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
@@ -36,70 +40,20 @@
         <a class="navbar-brand" href="#">Node_Flow Editor</a>
       </div>
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
         <li><a ng-click="activateWorkflow()" href="#">Workflow </a></li>
         <li ng-click="deleteSelected()" ng-if="modelservice.edges.getSelectedEdges().length > 0"><a href="#">Delete Connection</a></li>
-        <li ng-click="addNewInputConnector()" ng-if="modelservice.nodes.getSelectedNodes().length != 0">
-          <a> Add Input Connector </a>
-        </li>
-        <li ng-click="addNewOutputConnector()" ng-if="modelservice.nodes.getSelectedNodes().length != 0">
-          <a> Add Output Connector </a>
-        </li>
       </ul>
       <div class="navbar-header pull-right">
         <a class="navbar-brand"> {{allxmlData.FlowInformation.xsinoNamespaceSchemaLocation}} </a>
         </ul>
     </nav>
     <div class="row">
-      <div class="col-md-2">
-        <div class="left-panel">
-          <div class="navigator">
-            <ul class="list-group">
-              <li class="list-group-item leftnav">
-                <label>Project Name</label>
-                <input type="text" placeholder="Project Name" ng-model="model.projectName" style="width:100%">
-              </li>
-              <li class="list-group-item leftnav">
-                <label>Flow Name</label>
-                <input type="text" placeholder="Flow Name" ng-model="model.flowName" style="width:100%">
-              </li>
-              </li>
-              <li class="list-group-item leftnav" ng-repeat="node in model.nodes"><i class="fa fa-sticky-note" aria-hidden="true"></i>
-                <span ng-show="node.editable === false" ng-click="node.editable = true"> {{node.name}} </span>
-                <input type="text" ng-model="node.name" ng-show="node.editable === true">
-                <a ng-show="node.editable === true" ng-click="node.editable = false"><span class="fa fa-check"></span></a>
-                <ul class="list-group inner-list">
-                  <li class="list-group-item" ng-repeat="p in node.properties">
-                    <i class="fa fa-hand-o-right" aria-hidden="true"></i>
-                    <span ng-click="p.editable = true"> {{p.name}} <span ng-show="p.editable == false && p.value.length > 0">: {{p.value}}</span></span>
-                    <input type="text" ng-model="p.value" placeholder="Add value" ng-show="p.editable === true">
-                    <a ng-show="p.editable === true" ng-click="p.editable = false"><span class="fa fa-check"></span></a>
-                  </li>
-                </ul>
-              </li>
-              <li class="list-group-item leftnav">
-                <button ng-click="saveNodes();" class="btn btn-primary">Save</button>
-                <button ng-click="updateNodes();" class="btn btn-warning">Update</button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-7">
+      <div class="col-md-11">
         <div class="canvas-workflow">
-          {{model}}
           <fc-canvas model="model" selected-objects="flowchartselected" edge-style="curved" callbacks="callbacks" automatic-resize="true"></fc-canvas>
         </div>
       </div>
-
-      <div class="col-md-2">
-
-        <ul class="list-group right-panel">
-          <li class="list-group-item rightnav" ng-repeat="node in NodePallete.node_palette"><a style="cursor: pointer;" ng-click="addNewNode(node);"><i class="fa fa-sticky-note" aria-hidden="true"></i> {{node.name}}</a></li>
-        </ul>
-      </div>
     </div>
-
     </div>
 
 

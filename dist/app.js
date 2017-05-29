@@ -17,53 +17,150 @@ angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
     var ctrlDown = false;
 
 
-    /// The above function creates a right panel from the json file
-    $scope.CreateRightPanel = function () {
-      $http.get("json/nodePallete.json")
-        .then(function (response) {
-          $scope.NodePallete = response.data;
-
-        });
-    };
-
-    /// The above function creates a right panel from the json file
-    $scope.saveNodes = function () {
-      $http.post("https://pn-connectnode.mybluemix.net/api/connectNodeModels/replaceOrCreate", $rootScope.model)
-        .then(function (response) {
-          console.log(response.data.id);
-          alert("Saved Successfully: " + response.data.id);
-          $scope.savedId = response.data.id;
-        });
-    };
-
-    $scope.updateNodes = function () {
-      $http.post("https://pn-connectnode.mybluemix.net/api/connectNodeModels/" + $scope.savedId + "/replace", $rootScope.model)
-        .then(function (response) {
-          console.log(response);
-          alert("Updated Successfully: " + response.data.id);
-          $scope.savedId = response.data.id;
-        });
-    };
-
-    // $scope.getNodes = function() {
-    //   $http.get("https://pn-connectnode.mybluemix.net/api/connectNodeModels/6934cfbbea1180bf6ccee51727d7de32")
-    //   .then(function(response) {
-    //     console.log(response);
-    //     delete response.data.id;
-    //     $rootScope.model = response.data;
-    //   });
-    // };
-
-    //$scope.getNodes();
-
-    $scope.CreateRightPanel();
-
-    $rootScope.model = {
-      nodes: [],
-      edges: [],
-      projectName: "",
-      flowName: ""
-    };
+    $rootScope.model =  {
+      nodes: [
+        {
+          name: "FirstName",
+          id: 2,
+          x: 30,
+          y: 0,
+          color: '#000',
+          borderColor: '#000',
+          connectors: [
+            {
+              type: flowchartConstants.bottomConnectorType,
+              id: 10
+            }
+          ]
+        },
+        {
+          name: "LastName",
+          id: 3,
+          x: 30,
+          y: 50,
+          color: '#F15B26',
+          connectors: [
+            {
+              type: flowchartConstants.bottomConnectorType,
+              id: 2
+            }
+          ]
+        },
+        {
+          name: "AccountType",
+          id: 4,
+          x: 30,
+          y: 100,
+          color: '#000',
+          borderColor: '#000',
+          connectors: [
+            {
+              type: flowchartConstants.bottomConnectorType,
+              id: 14
+            }
+          ]
+        },
+        {
+          name: "Cust_AccountID",
+          id: 5,
+          x: 30,
+          y: 150,
+          color: '#000',
+          borderColor: '#000',
+          connectors: [
+            {
+              type: flowchartConstants.bottomConnectorType,
+              id: 17
+            }
+          ]
+        },
+        {
+          name: "Cust_Account_SortCode",
+          id: 105,
+          x: 30,
+          y: 200,
+          color: '#000',
+          borderColor: '#000',
+          connectors: [
+            {
+              type: flowchartConstants.bottomConnectorType,
+              id: 117
+            }
+          ]
+        },
+        {
+          name: "AccountType",
+          id: 6,
+          x: 1300,
+          y: 0,
+          color: '#000',
+          borderColor: '#000',
+          connectors: [
+            {
+              type: flowchartConstants.topConnectorType,
+              id: 18
+            }
+          ]
+        },
+        {
+          name: "customer",
+          id: 7,
+          x: 1300,
+          y: 50,
+          color: '#000',
+          borderColor: '#000',
+          connectors: [
+            {
+              type: flowchartConstants.topConnectorType,
+              id: 19
+            }
+          ]
+        },
+        {
+          name: "AccountID",
+          id: 8,
+          x: 1300,
+          y: 100,
+          color: '#000',
+          borderColor: '#000',
+          connectors: [
+            {
+              type: flowchartConstants.topConnectorType,
+              id: 20
+            }
+          ]
+        },
+        {
+          name: "Cust_Balance",
+          id: 9,
+          x: 1300,
+          y: 150,
+          color: '#000',
+          borderColor: '#000',
+          connectors: [
+            {
+              type: flowchartConstants.topConnectorType,
+              id: 21
+            }
+          ]
+        },
+        {
+          name: "StartDate",
+          id: 10,
+          x: 1300,
+          y: 200,
+          color: '#000',
+          borderColor: '#000',
+          connectors: [
+            {
+              type: flowchartConstants.topConnectorType,
+              id: 22
+            }
+          ]
+        }
+      ],
+    edges: []
+  };
 
     $scope.flowchartselected = [];
     //var modelservice = 
