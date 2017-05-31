@@ -37,14 +37,14 @@
   <div class="container-fluid">
     <nav class="navbar navbar-default">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">Node_Flow Editor</a>
+        <a class="navbar-brand" href="#">Connector</a>
       </div>
       <ul class="nav navbar-nav">
         <li><a ng-click="activateWorkflow()" href="#">Workflow </a></li>
         <li ng-click="deleteSelected()" ng-if="modelservice.edges.getSelectedEdges().length > 0"><a href="#">Delete Connection</a></li>
       </ul>
       <div class="navbar-header pull-right">
-        <a class="navbar-brand"> {{allxmlData.FlowInformation.xsinoNamespaceSchemaLocation}} </a>
+        <a class="navbar-brand"> {{xmlData.ServiceName}} ({{xmlData.Version}}) </a>
         </ul>
     </nav>
     <div class="row">
@@ -52,6 +52,13 @@
         <div class="canvas-workflow">
           <fc-canvas model="model" selected-objects="flowchartselected" edge-style="curved" callbacks="callbacks" automatic-resize="true"></fc-canvas>
         </div>
+      </div>
+      <div class="col-md-11">
+        <hr/>
+        <b> Output: </b>
+        <br/>
+        <br/>
+        {{model}}
       </div>
     </div>
     </div>

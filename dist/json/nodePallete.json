@@ -1,152 +1,88 @@
 {
-    "node_palette": [
-        {
-            "id": "ComIbmMQInput",
-            "name": "Receive Message on MQ",
-            "input_terminals": [],
-            "output_terminals": [
-                "Output",
-                "Failure"
-            ],
-            "properties": [
-                {
-                    "name": "Name",
-                    "type": "string",
-                    "mandatory": true,
-                    "editable": false,
-                   "value" : null
-                },
-                {
-                    "name": "Description",
-                    "type": "string",
-                     "mandatory": true,
-                    "editable": false,
-                   "value" : null
-                },
-                {
-                    "name": "Queue Name",
-                    "type": "string",
-                    "mandatory": true,
-                    "editable": false,
-                   "value" : null
-                },
-                {
-                    "name": "Message Type",
-                    "type": "string",
-                     "mandatory": true,
-                    "editable": false,
-                   "value" : null
-                }
-            ]
-        },
-        {
-            "id": "ComIbmCompute",
-            "name": "Compute",
-            "input_terminals": [
-                "Input"
-            ],
-            "output_terminals": [
-                "Output",
-                "Failure"
-            ],
-            "properties": [
-                {
-                    "name": "Name",
-                    "type": "string",
-                     "mandatory": true,
-                    "editable": false,
-                   "value" : null
-                },
-                {
-                    "name": "Description",
-                    "type": "string",
-                     "mandatory": true,
-                    "editable": false,
-                   "value" : null
-                },
-                {
-                    "name": "Code File Path",
-                    "type": "string",
-                    "mandatory": true,
-                    "editable": false,
-                   "value" : null
-                }
-            ]
-            
-        },
-        
-        {
-            "id": "ComIbmMapping",
-            "name": "Mapping",
-            "input_terminals": [
-                "Input"
-            ],
-            "output_terminals": [
-                "Output",
-                "Failure"
-            ],
-            "properties": [
-                {
-                    "name": "Name",
-                    "type": "string",
-                     "mandatory": true,
-                    "editable": false,
-                   "value" : null
-                },
-                {
-                    "name": "Description",
-                    "type": "string",
-                     "mandatory": true,
-                    "editable": false,
-                   "value" : null
-                },
-                {
-                    "name": "Input Data Structure Path",
-                    "type": "string",
-                     "mandatory": true,
-                    "editable": false,
-                   "value" : null
-                },
-                {
-                    "name": "Output Data Structure Path",
-                    "type": "string",
-                     "mandatory": true,
-                    "editable": false,
-                   "value" : null
-                }
-            ]
-            
-        },
-        {
-            "id": "ComIbmMQOutput",
-            "name": "Send Message on MQ",
-            "input_terminals": [
-                "Input"
-            ],
-            "output_terminals": [],
-            "properties": [
-                {
-                    "name": "Name",
-                    "type": "string",
-                     "mandatory": true,
-                    "editable": false,
-                   "value" : null
-                },
-                {
-                    "name": "Description",
-                    "type": "string",
-                     "mandatory": true,
-                    "editable": false,
-                   "value" : null
-                },
-                {
-                    "name": "Queue Name",
-                    "type": "string",
-                     "mandatory": true,
-                    "editable": false,
-                   "value" : null
-                }
-            ]
-        }
-    ]
+   "ServiceMapping": {
+      "ServiceName": "QuickViewSummaryService",
+      "Version": "1.1",
+      "header": [
+         "016"
+      ],
+      "Body": [
+         {
+            "ConsumerOperationName": "getAccountInfo",
+            "ConsumerOperationRefXSD": "AccountV1_Consumer.xsd",
+            "ConsumerOperationNamespace": "com/ibm/TransferObjects/getAccountInfo/getAccountInfo_Consumer",
+            "ProviderOperationName": "getAccountSOR1()",
+            "ProviderOperationRefXSD": "Account_Provider_V1.xsd",
+            "ProviderOperationNamespace": "com/ibm/ima/bps/TransferObjects/getAccountSOR1/getAccountInfo_Provider",
+            "OperationMetaData": {
+               "URL": "http:localhost:8080",
+               "instanceName": "Pattern_ServiceFacade_MQRequestResponse",
+               "deployableServiceWsdl": "/MQ_Req_Resp/TemperatureConverter.wsdl",
+               "validationofSOAPRequest": "none",
+               "validationofSOAPResponse": "none",
+               "responseQueue": "RESPONSE",
+               "storeQueue": "STORE",
+               "expiryofStoreQueueMessages": "MQEI_UNLIMITED",
+               "providerRequestQueueManager": "",
+               "providerRequestQueue": "PROVIDER",
+               "loggingRequired": "false",
+               "logQueueManager": "",
+               "logQueue": "LOG",
+               "errorMessageRequired": "true",
+               "errorQueueManager": "",
+               "errorQueue": "ERROR",
+               "brokerSchema": "mqsi"
+            },
+            "EntityMapping": {
+               "ConsumerEntityName": "Account",
+               "ConsumerEntityRefXSD": "AccountV1_Consumer.xsd",
+               "ConsumerEntityNamespace": "com/ibm/TransferObjects/Account/AccountInfo_Consumer",
+               "ProviderEntityName": "AccountSOR1",
+               "ProviderEntityRefXSD": "Account_Provider_V1.xsd",
+               "ProviderEntityNamespace": "com/ibm/ima/bps/TransferObjects/AccountSOR1/AccountInfo_Provider",
+               "RequestMapping": [
+                  {
+                     "ConsumerFieldName": "concat('Mr',$FirstName,$LastName)",
+                     "ConsumerFieldDataType": "String",
+                     "ProviderFieldName": "CustName",
+                     "ProviderFieldDataType": "String",
+                     "Optional": "True"
+                  },
+                  {
+                     "ConsumerFieldName": "AccountType",
+                     "ConsumerFieldDataType": "String",
+                     "ProviderFieldName": "Cust_AccountType",
+                     "ProviderFieldDataType": "String",
+                     "Optional": "False"
+                  }
+               ],
+               "ResponseMapping": {
+                  "Loop": {
+                     "Counter": "2",
+                     "ConsumerFieldName": "customer",
+                     "ProviderFieldName": "Customer",
+                     "#text": "-- Loop Start, Counter captures the number of times the loop needs to be run.",
+                     "MappingElement": [
+                        {
+                           "ConsumerFieldName": "Cust_AccountID",
+                           "ConsumerFieldDataType": "Number",
+                           "ProviderFieldName": "AccountID",
+                           "ProviderFieldDataType": "Number",
+                           "Optional": "False"
+                        },
+                        {
+                           "ConsumerFieldName": "Cust_Account_SortCode",
+                           "ConsumerFieldDataType": "Number",
+                           "ProviderFieldName": "SortCode",
+                           "ProviderFieldDataType": "Number",
+                           "Optional": "True"
+                        }
+                     ]
+                  }
+               }
+            }
+         },
+         {},
+         {}
+      ]
+   }
 }

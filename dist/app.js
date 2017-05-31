@@ -13,154 +13,73 @@ angular.module('app', ['flowchart', 'ui.tree', 'ui.bootstrap'])
     var aKeyCode = 65;
     var escKeyCode = 27;
     var nextNodeID = 10;
+    var nextNodeConnectorX = 0;
+    var nextNodeConnectorY = 0;
     var nextConnectorID = 1;
     var ctrlDown = false;
-
-
+    
     $rootScope.model =  {
       nodes: [
-        {
-          name: "FirstName",
-          id: 2,
-          x: 30,
-          y: 0,
-          color: '#000',
-          borderColor: '#000',
-          connectors: [
-            {
-              type: flowchartConstants.bottomConnectorType,
-              id: 10
-            }
-          ]
-        },
-        {
-          name: "LastName",
-          id: 3,
-          x: 30,
-          y: 50,
-          color: '#F15B26',
-          connectors: [
-            {
-              type: flowchartConstants.bottomConnectorType,
-              id: 2
-            }
-          ]
-        },
-        {
-          name: "AccountType",
-          id: 4,
-          x: 30,
-          y: 100,
-          color: '#000',
-          borderColor: '#000',
-          connectors: [
-            {
-              type: flowchartConstants.bottomConnectorType,
-              id: 14
-            }
-          ]
-        },
-        {
-          name: "Cust_AccountID",
-          id: 5,
-          x: 30,
-          y: 150,
-          color: '#000',
-          borderColor: '#000',
-          connectors: [
-            {
-              type: flowchartConstants.bottomConnectorType,
-              id: 17
-            }
-          ]
-        },
-        {
-          name: "Cust_Account_SortCode",
-          id: 105,
-          x: 30,
-          y: 200,
-          color: '#000',
-          borderColor: '#000',
-          connectors: [
-            {
-              type: flowchartConstants.bottomConnectorType,
-              id: 117
-            }
-          ]
-        },
-        {
-          name: "AccountType",
-          id: 6,
-          x: 1300,
-          y: 0,
-          color: '#000',
-          borderColor: '#000',
-          connectors: [
-            {
-              type: flowchartConstants.topConnectorType,
-              id: 18
-            }
-          ]
-        },
-        {
-          name: "customer",
-          id: 7,
-          x: 1300,
-          y: 50,
-          color: '#000',
-          borderColor: '#000',
-          connectors: [
-            {
-              type: flowchartConstants.topConnectorType,
-              id: 19
-            }
-          ]
-        },
-        {
-          name: "AccountID",
-          id: 8,
-          x: 1300,
-          y: 100,
-          color: '#000',
-          borderColor: '#000',
-          connectors: [
-            {
-              type: flowchartConstants.topConnectorType,
-              id: 20
-            }
-          ]
-        },
-        {
-          name: "Cust_Balance",
-          id: 9,
-          x: 1300,
-          y: 150,
-          color: '#000',
-          borderColor: '#000',
-          connectors: [
-            {
-              type: flowchartConstants.topConnectorType,
-              id: 21
-            }
-          ]
-        },
-        {
-          name: "StartDate",
-          id: 10,
-          x: 1300,
-          y: 200,
-          color: '#000',
-          borderColor: '#000',
-          connectors: [
-            {
-              type: flowchartConstants.topConnectorType,
-              id: 22
-            }
-          ]
-        }
       ],
     edges: []
   };
+    $scope.getNodesModel = function() {
+      $http.get('./json/nodePallete.json').then(function(response) {
+        console.log(response.data.ServiceMapping);
+        $scope.xmlData = response.data.ServiceMapping;
+        console.log($scope.xmlData.Body[0].EntityMapping.RequestMapping[0]);
+        console.log($scope.xmlData.Body[0].EntityMapping.RequestMapping[0].length);
+        
+        for (var key in $scope.xmlData.Body[0].EntityMapping.RequestMapping[0]) {
+        // nextNodeConnectorX = nextNodeConnectorX + 50;
+        nextNodeConnectorY = nextNodeConnectorY + 50;
+           var newNode = {
+            name: key,
+            id: nextNodeID++,
+            x: nextNodeConnectorX ,
+            y: nextNodeConnectorY ,
+            color: '#F15B26',
+            connectors: [
+            {
+              type: flowchartConstants.bottomConnectorType,
+              id: nextConnectorID++
+            }
+          ]
+          };
+          $rootScope.model.nodes.push(newNode);
+          console.log(' name=' + key + ' value=' + $scope.xmlData.Body[0].EntityMapping.RequestMapping[0][key]);
+
+          // do some more stuff with obj[key]
+        }
+        nextNodeConnectorY = 0;
+        nextNodeConnectorX = 1100;
+      for (var key in $scope.xmlData.Body[0].EntityMapping.ResponseMapping.Loop.MappingElement[0]) {
+        // nextNodeConnectorX = nextNodeConnectorX + 50;
+        nextNodeConnectorY = nextNodeConnectorY + 50;
+           var newNode = {
+            name: key,
+            id: nextNodeID++,
+            x: nextNodeConnectorX ,
+            y: nextNodeConnectorY ,
+            color: '#F15B26',
+            connectors: [
+            {
+              type: flowchartConstants.topConnectorType,
+              id: nextConnectorID++
+            }
+          ]
+          };
+          $rootScope.model.nodes.push(newNode);
+          console.log(' name=' + key + ' value=' + $scope.xmlData.Body[0].EntityMapping.RequestMapping[0][key]);
+
+          // do some more stuff with obj[key]
+        }
+
+      });
+    };
+
+     $scope.getNodesModel();
+
 
     $scope.flowchartselected = [];
     //var modelservice = 
